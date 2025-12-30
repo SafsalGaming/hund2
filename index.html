@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hundredle - 100 Boards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #020617;
+      --bg-soft: #030712;
+      --border-soft: #1f2937;
+      --border-strong: #111827;
+      --accent: #38bdf8;
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --text-faint: #6b7280;
+      --green: #22c55e;
+      --yellow: #eab308;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, #0f172a 0, #020617 40%, #020617 70%, #000 100%);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 10px 20px;
+      gap: 16px;
+      overflow: hidden;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1600px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: 100%;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    .title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    h1 {
+      font-size: 1.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #f9fafb;
+      text-shadow: 0 0 18px rgba(56, 189, 248, 0.4);
+    }
+
+    .stats {
+      display: flex;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .stat-card {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 180px;
+    }
+
+    .stat-value {
+      font-weight: 600;
+      color: #f9fafb;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .reset-btn {
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(148, 163, 184, 0.12);
+      color: #cbd5e1;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.08s ease, background 0.12s ease, border-color 0.12s ease;
+    }
+
+    .reset-btn:hover {
+      background: rgba(148, 163, 184, 0.18);
+      border-color: rgba(148, 163, 184, 0.4);
+    }
+
+    .reset-btn:active {
+      transform: translateY(1px);
+    }
+
+    .game-container {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--border-strong);
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.14), transparent 60%),
+        linear-gradient(to bottom right, #020617, #020617);
+      padding: 10px;
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 1),
+        0 18px 55px rgba(0, 0, 0, 0.95);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .boards-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 4px;
+      scroll-behavior: smooth;
+    }
+
+    .boards-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .boards-scroll::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.85);
+      border-radius: 999px;
+    }
+
+    .boards-scroll::-webkit-scrollbar-thumb {
+      background: rgba(51, 65, 85, 0.9);
+      border-radius: 999px;
+    }
+
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .board {
+      background: radial-gradient(circle at top, #020617, #030712 55%, #020617 100%);
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      padding: 6px 6px 7px;
+      position: relative;
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.9),
+        0 10px 20px rgba(0, 0, 0, 0.7);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+      cursor: pointer;
+      content-visibility: auto;
+      contain-intrinsic-size: 155px 230px;
+    }
+
+    .board:hover {
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.55);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 1),
+        0 18px 40px rgba(0, 0, 0, 0.95);
+      background: radial-gradient(circle at top, #020617, #020617 60%, #020617 100%);
+    }
+
+    .board-active {
+      border-color: rgba(56, 189, 248, 0.95);
+      box-shadow:
+        0 0 0 1px rgba(56, 189, 248, 0.8),
+        0 0 26px rgba(56, 189, 248, 0.7);
+    }
+
+    .board-solved {
+      opacity: 0.55;
+      filter: grayscale(0.6);
+    }
+
+    .board-solved .board-status {
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    .board-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-faint);
+    }
+
+    .board-left {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .board-index-pill {
+      padding: 1px 6px 2px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      background: rgba(15, 23, 42, 0.9);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      color: var(--text-soft);
+    }
+
+    .board-status {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-soft);
+    }
+
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 3px;
+    }
+
+    .tile {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 3px;
+      border: 1px solid rgba(31, 41, 55, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      background: #020617;
+      color: var(--text-main);
+      user-select: none;
+      transition: border-color 0.12s ease, color 0.12s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tile.has-hint:not(.has-char) {
+      border-style: dashed;
+      border-color: rgba(75, 85, 99, 0.95);
+      background: #020617;
+    }
+
+    .tile.has-hint:not(.has-char)::before {
+      content: attr(data-hint);
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #9ca3af;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .tile.hint {
+      border-style: dashed;
+      border-color: rgba(55, 65, 81, 0.9);
+      opacity: 0.9;
+    }
+
+    .tile.filled {
+      border-color: rgba(107, 114, 128, 0.9);
+      background: #020617;
+    }
+
+    .tile.current {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5), 0 0 14px rgba(56, 189, 248, 0.4);
+    }
+
+    .tile.correct {
+      background: radial-gradient(circle at top, #16a34a, #15803d 60%, #064e3b 100%);
+      border-color: #16a34a;
+      color: #ecfdf5;
+      box-shadow: 0 2px 0 rgba(6, 95, 70, 1), 0 0 18px rgba(22, 163, 74, 0.7);
+    }
+
+    .tile.present {
+      background: radial-gradient(circle at top, #ca8a04, #a16207 60%, #713f12 100%);
+      border-color: #eab308;
+      color: #fefce8;
+      box-shadow: 0 2px 0 rgba(113, 63, 18, 1), 0 0 18px rgba(234, 179, 8, 0.7);
+    }
+
+    .tile.absent {
+      background: #020617;
+      border-color: #0f172a;
+      color: #4b5563;
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 1);
+    }
+
+    .keyboard-wrap {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .keyboard {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      background: rgba(15, 23, 42, 0.96);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85);
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .key-row {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .key {
+      flex: 0 0 auto;
+      min-width: 32px;
+      height: 44px;
+      border-radius: 6px;
+      border: 1px solid #1f2937;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: linear-gradient(to bottom, #111827, #020617);
+      color: #e5e7eb;
+      user-select: none;
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.7);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, border-color 0.08s ease;
+    }
+
+    .key:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+    }
+
+    .key-wide {
+      min-width: 52px;
+      padding: 0 6px;
+    }
+
+    .key-label-small {
+      font-size: 0.7rem;
+      text-transform: none;
+    }
+
+    .key-correct {
+      background: linear-gradient(to bottom, #16a34a, #15803d);
+      border-color: #16a34a;
+      color: #ecfdf5;
+      box-shadow: 0 2px 0 rgba(6, 95, 70, 1), 0 0 16px rgba(22, 163, 74, 0.7);
+    }
+
+    .key-present {
+      background: linear-gradient(#ca8a04, #a16207);
+      border-color: #eab308;
+      color: #fefce8;
+      box-shadow: 0 2px 0 rgba(113, 63, 18, 1), 0 0 16px rgba(234, 179, 8, 0.7);
+    }
+
+    .key-absent {
+      background: linear-gradient(to bottom, #020617, #020617);
+      border-color: #0f172a;
+      color: #4b5563;
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 1);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal {
+      background: #020617;
+      padding: 20px 22px;
+      border-radius: 12px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+      max-width: 380px;
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .modal-title {
+      font-size: 1.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #f9fafb;
+    }
+
+    .modal-text {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .modal-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #0b1120;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .modal-btn.secondary {
+      border-color: var(--border-soft);
+      background: #020617;
+      color: var(--text-main);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width:900px) {
+      h1 {
+        font-size: 1.45rem;
+      }
+
+      .board-grid {
+        grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      }
+    }
+
+    @media (max-width:600px) {
+      body {
+        padding: 10px 6px 14px;
+      }
+
+      h1 {
+        font-size: 1.2rem;
+        letter-spacing: 0.18em;
+      }
+
+      .board-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 8px;
+      }
+
+      .board {
+        padding: 5px;
+      }
+
+      .tile {
+        font-size: 0.8rem;
+      }
+
+      .keyboard {
+        max-width: 100%;
+      }
+    }
+
+    .daily-next {
+      margin-top: 8px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(148, 163, 184, 0.22);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .daily-next-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .daily-next-timer {
+      font-size: 1.15rem;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: #f9fafb;
+      text-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+    <div class="top-bar">
+      <div class="title-wrap">
+        <h1>HUNDREDLE</h1>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value">
+            <span id="guesses-label">0/104 GUESSES</span>
+            <span>•</span>
+            <span id="completed-label">0/100 COMPLETED</span>
+
+          </div>
+        </div>
+        <button id="reset-btn" class="reset-btn" type="button">Reset</button>
+      </div>
+    </div>
+
+    <div class="game-container">
+      <div class="boards-scroll">
+        <div id="boards" class="board-grid"></div>
+      </div>
+
+      <div class="keyboard-wrap">
+        <div id="keyboard" class="keyboard"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal">
+      <div id="modal-title" class="modal-title">HUNDREDLE</div>
+      <div id="modal-text" class="modal-text"></div>
+
+      <div id="daily-next" class="daily-next hidden">
+        <div class="daily-next-label">new hundredle tomorrow</div>
+        <div id="daily-countdown" class="daily-next-timer">00:00:00</div>
+      </div>
+      <div class="modal-buttons">
+        <button id="copy-share-btn" class="modal-btn">Share</button>
+        <button id="close-modal-btn" class="modal-btn secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirm-overlay" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-title">RESET</div>
+      <div class="modal-text">Are you sure you want to reset the game?</div>
+      <div class="modal-buttons">
+        <button id="confirm-reset-yes" class="modal-btn">Yes</button>
+        <button id="confirm-reset-cancel" class="modal-btn secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script type="module">
+    const TZ = "Asia/Jerusalem";
+
+    async function fetchDailyFromServer() {
+      const r = await fetch("/.netlify/functions/daily", { cache: "no-store" });
+      if (!r.ok) throw new Error("daily fetch failed");
+      const data = await r.json();
+      if (!data || typeof data.date !== "string" || !Array.isArray(data.words)) {
+        throw new Error("bad daily payload");
+      }
+      return data;
+    }
+
+
+    // ===== CONFIG =====
+    const CONFIG = {
+      BOARD_COUNT: 100,
+      MAX_GUESSES: 104,
+      WORD_LENGTH: 5,
+      INITIAL_VISIBLE_ROWS: 6,
+      SHARE_URL: "https://HUNDREDLE.netlify.app",
+    };
+
+    // ===== GLOBALS =====
+    let SOLUTIONS = [];
+    let BOARD_COUNT = 0;
+
+    const MAX_GUESSES = CONFIG.MAX_GUESSES;
+    const COLS = CONFIG.WORD_LENGTH;
+    const INITIAL_VISIBLE_ROWS = CONFIG.INITIAL_VISIBLE_ROWS;
+    const ROWS = MAX_GUESSES;
+
+    const container = document.getElementById("boards");
+    const keyboardEl = document.getElementById("keyboard");
+    const guessesLabelEl = document.getElementById("guesses-label");
+    const completedLabelEl = document.getElementById("completed-label");
+
+    const modalOverlay = document.getElementById("modal-overlay");
+    const modalTitleEl = document.getElementById("modal-title");
+    const modalTextEl = document.getElementById("modal-text");
+    const dailyNextEl = document.getElementById("daily-next");
+    const dailyCountdownEl = document.getElementById("daily-countdown");
+    const copyShareBtn = document.getElementById("copy-share-btn");
+    const closeModalBtn = document.getElementById("close-modal-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const confirmOverlay = document.getElementById("confirm-overlay");
+    const confirmYesBtn = document.getElementById("confirm-reset-yes");
+    const confirmCancelBtn = document.getElementById("confirm-reset-cancel");
+
+
+    const boardsScrollEl = document.querySelector(".boards-scroll");
+
+    const STORAGE_KEY = "hundredle_state_v4";
+
+    let currentShareText = "";
+
+    let DAILY_DATE = null;
+    let countdownInterval = null;
+    let countdownTargetUtcMs = 0;
+
+    let tiles;
+    let rows;
+    let boardStatusEls;
+    let boardElems;
+    let boardGrids;
+    let keyboardStates;
+    let knownGreens;
+    let solved;
+    let guessesHistory = [];
+
+    let visibleRows = INITIAL_VISIBLE_ROWS;
+    let guessesUsed = 0;
+    let currentGuess = "";
+    let solvedCount = 0;
+    let activeBoard = 0;
+    let currentHighlightRow = -1;
+    let gameStarted = false;
+    let gameEnded = false;
+    let startTime = 0;
+    let boardsScrollTop = 0;
+
+    // VISIBILITY TRACKING
+    const visibleBoards = new Set();
+    const boardsToSync = new Set();
+    let intersectionObserver = null;
+
+    function initIntersectionObserver() {
+      intersectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const idx = parseInt(entry.target.dataset.index, 10);
+          if (entry.isIntersecting) {
+            visibleBoards.add(idx);
+            if (boardsToSync.has(idx)) {
+              syncBoard(idx);
+              boardsToSync.delete(idx);
+            }
+          } else {
+            visibleBoards.delete(idx);
+          }
+        });
+      }, {
+        root: boardsScrollEl,
+        rootMargin: "200px",
+        threshold: 0
+      });
+    }
+
+    function syncBoard(b) {
+      if (solved[b]) return;
+
+      // Sync current guess
+      const row = guessesUsed;
+      if (row < MAX_GUESSES) {
+        if (!rows[b][row]) {
+          const rowDiv = createRow(b, row);
+          if (rowDiv) rowDiv.style.display = "grid";
+        }
+
+        const rowTiles = tiles[b][row];
+        if (rowTiles) {
+          for (let i = 0; i < COLS; i++) {
+            const tile = rowTiles[i];
+            if (i < currentGuess.length) {
+              tile.textContent = currentGuess[i];
+              tile.classList.add("filled", "has-char");
+              tile.classList.remove("has-hint", "hint");
+              tile.removeAttribute("data-hint");
+            } else {
+              tile.textContent = "";
+              tile.classList.remove("filled", "has-char");
+              // Re-apply hints if needed
+              const hintChar = knownGreens[b][i];
+              if (hintChar) {
+                tile.dataset.hint = hintChar;
+                tile.classList.add("has-hint", "hint");
+              }
+            }
+            // Ensure current highlight is correct
+            if (row === currentHighlightRow) tile.classList.add("current");
+            else tile.classList.remove("current");
+          }
+        }
+      }
+
+      // Since boards might be synced late, we don't need to replay everything, 
+      // because replayGuesses already ran at init. 
+      // This sync is primarily for the *active* row changes during play.
+    }
+
+    // ===== ISRAEL DATE + COUNTDOWN =====
+    function israelDateKey(date = new Date()) {
+      // YYYY-MM-DD in Israel time
+      return new Intl.DateTimeFormat("en-CA", {
+        timeZone: TZ,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(date);
+    }
+
+    function tzOffsetMinutes(date, timeZone) {
+      // returns offset minutes for timeZone at given UTC instant
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone,
+        timeZoneName: "shortOffset"
+      }).formatToParts(date);
+      const tzName = (parts.find(p => p.type === "timeZoneName") || {}).value || "GMT";
+      const m = tzName.match(/(?:GMT|UTC)([+-])(\d{1,2})(?::?(\d{2}))?/i);
+      if (!m) return 0;
+      const sign = m[1] === "-" ? -1 : 1;
+      const hh = parseInt(m[2], 10) || 0;
+      const mm = parseInt(m[3] || "0", 10) || 0;
+      return sign * (hh * 60 + mm);
+    }
+
+    function nextIsraelMidnightUtcMs(now = new Date()) {
+      // compute UTC timestamp of next 00:00 in Israel, with DST-safe iteration
+      const todayKey = israelDateKey(now); // YYYY-MM-DD
+      const [y, mo, d] = todayKey.split("-").map(n => parseInt(n, 10));
+      // local tomorrow date
+      const tomorrowUtcMid = new Date(Date.UTC(y, mo - 1, d) + 24 * 60 * 60 * 1000);
+      const ty = tomorrowUtcMid.getUTCFullYear();
+      const tmo = tomorrowUtcMid.getUTCMonth() + 1;
+      const td = tomorrowUtcMid.getUTCDate();
+
+      const localMidnightAsUtc = Date.UTC(ty, tmo - 1, td, 0, 0, 0);
+
+      let guess = localMidnightAsUtc - tzOffsetMinutes(now, TZ) * 60 * 1000;
+      for (let i = 0; i < 4; i++) {
+        const off = tzOffsetMinutes(new Date(guess), TZ);
+        const next = localMidnightAsUtc - off * 60 * 1000;
+        if (Math.abs(next - guess) < 1000) { guess = next; break; }
+        guess = next;
+      }
+      return guess;
+    }
+
+    function formatCountdown(ms) {
+      const total = Math.max(0, Math.floor(ms / 1000));
+      const hh = Math.floor(total / 3600);
+      const mm = Math.floor((total % 3600) / 60);
+      const ss = total % 60;
+      const pad = n => String(n).padStart(2, "0");
+      return pad(hh) + ":" + pad(mm) + ":" + pad(ss);
+    }
+
+    function stopCountdown() {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
+    }
+
+    function startCountdownToNextDay() {
+      if (!dailyNextEl || !dailyCountdownEl) return;
+
+      stopCountdown();
+      countdownTargetUtcMs = nextIsraelMidnightUtcMs(new Date());
+
+      const tick = () => {
+        const left = countdownTargetUtcMs - Date.now();
+        dailyCountdownEl.textContent = formatCountdown(left);
+        if (left <= 0) {
+          dailyCountdownEl.textContent = "00:00:00";
+          stopCountdown();
+        }
+      };
+
+      tick();
+      countdownInterval = setInterval(tick, 1000);
+    }
+
+    function showDailyNext() {
+      if (!dailyNextEl) return;
+      dailyNextEl.classList.remove("hidden");
+      startCountdownToNextDay();
+    }
+
+    function hideDailyNext() {
+      if (!dailyNextEl) return;
+      dailyNextEl.classList.add("hidden");
+      stopCountdown();
+    }
+
+    // ===== DAILY WORDS (from Netlify Function) =====
+    // (no client-side writes; global daily list comes from /.netlify/functions/daily)
+
+    // ===== STORAGE =====
+    function saveState() {
+      try {
+        if (!SOLUTIONS || !SOLUTIONS.length) return;
+
+        if (boardsScrollEl) boardsScrollTop = boardsScrollEl.scrollTop || 0;
+
+        const state = {
+          version: 4,
+          dailyDate: DAILY_DATE,
+          solutions: SOLUTIONS,
+          boardCount: BOARD_COUNT,
+
+          guessesHistory,
+          guessesUsed,
+          currentGuess,
+
+          activeBoard,
+
+          gameEnded,
+          gameStarted,
+          startTime,
+
+          boardsScrollTop
+        };
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) { }
+    }
+
+    if (boardsScrollEl) {
+      let t = null;
+      boardsScrollEl.addEventListener("scroll", () => {
+        boardsScrollTop = boardsScrollEl.scrollTop || 0;
+        clearTimeout(t);
+        t = setTimeout(saveState, 150);
+      });
+    }
+    window.addEventListener("beforeunload", saveState);
+
+    // ===== HELPERS =====
+    function updateUI() {
+      if (guessesLabelEl) {
+        guessesLabelEl.textContent = guessesUsed + "/" + MAX_GUESSES + " GUESSES";
+      }
+      if (completedLabelEl && BOARD_COUNT) {
+        completedLabelEl.textContent = solvedCount + "/" + BOARD_COUNT + " COMPLETED";
+      }
+    }
+
+    function createRow(boardIndex, rowIndex) {
+      if (rowIndex >= ROWS) return null;
+      if (rows[boardIndex][rowIndex]) return rows[boardIndex][rowIndex];
+
+      const rowDiv = document.createElement("div");
+      rowDiv.className = "row";
+      rows[boardIndex][rowIndex] = rowDiv;
+      tiles[boardIndex][rowIndex] = [];
+
+      for (let c = 0; c < COLS; c++) {
+        const tile = document.createElement("div");
+        tile.className = "tile";
+        tiles[boardIndex][rowIndex][c] = tile;
+        rowDiv.appendChild(tile);
+      }
+
+      const grid = boardGrids[boardIndex];
+      if (grid) grid.appendChild(rowDiv);
+
+      return rowDiv;
+    }
+
+    function updateVisibleRows() {
+      const needed = Math.min(
+        MAX_GUESSES,
+        Math.max(INITIAL_VISIBLE_ROWS, guessesUsed + 1)
+      );
+      if (needed === visibleRows) return;
+
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue;
+
+        // Only create rows for visible boards or active board
+        // Others will be created during sync when they become visible
+        if (!visibleBoards.has(b) && b !== activeBoard) {
+          boardsToSync.add(b);
+          continue;
+        }
+
+        for (let r = visibleRows; r < needed; r++) {
+          let rowDiv = rows[b][r];
+          if (!rowDiv) rowDiv = createRow(b, r);
+          if (rowDiv) rowDiv.style.display = "grid";
+        }
+      }
+      visibleRows = needed;
+    }
+
+    function refreshCurrentRowHighlight() {
+      const newRow = Math.min(guessesUsed, MAX_GUESSES - 1);
+
+      if (newRow === currentHighlightRow && guessesUsed < MAX_GUESSES) return;
+
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (currentHighlightRow >= 0) {
+          const prevTiles = tiles[b][currentHighlightRow];
+          if (prevTiles) {
+            for (let c = 0; c < COLS; c++) prevTiles[c].classList.remove("current");
+          }
+        }
+
+        if (guessesUsed >= MAX_GUESSES || solved[b]) continue;
+
+        if (!visibleBoards.has(b) && b !== activeBoard) {
+          boardsToSync.add(b);
+          continue;
+        }
+
+        const newTiles = tiles[b][newRow];
+        if (newTiles) {
+          for (let c = 0; c < COLS; c++) newTiles[c].classList.add("current");
+        }
+      }
+
+      currentHighlightRow = newRow;
+    }
+
+    function applyHintsToCurrentRow() {
+      if (guessesUsed >= MAX_GUESSES) return;
+      const row = guessesUsed;
+
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue;
+
+        if (!visibleBoards.has(b) && b !== activeBoard) {
+          boardsToSync.add(b);
+          continue;
+        }
+
+        const rowTiles = tiles[b][row];
+        if (!rowTiles) continue;
+
+        for (let c = 0; c < COLS; c++) {
+          const tile = rowTiles[c];
+          const hintChar = knownGreens[b][c];
+          if (tile.classList.contains("has-char")) continue;
+
+          if (hintChar) {
+            tile.dataset.hint = hintChar;
+            tile.classList.add("has-hint", "hint");
+          } else {
+            tile.classList.remove("has-hint", "hint");
+            tile.removeAttribute("data-hint");
+          }
+        }
+      }
+    }
+
+    function setLetter(row, col, letter) {
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue;
+
+        if (!visibleBoards.has(b) && b !== activeBoard) {
+          boardsToSync.add(b);
+          continue;
+        }
+
+        const rowTiles = tiles[b][row];
+        if (!rowTiles) continue;
+        const tile = rowTiles[col];
+        tile.textContent = letter;
+        tile.classList.add("filled", "has-char");
+        tile.classList.remove("has-hint", "hint");
+        tile.removeAttribute("data-hint");
+      }
+    }
+
+    function clearLetter(row, col) {
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue;
+
+        if (!visibleBoards.has(b) && b !== activeBoard) {
+          boardsToSync.add(b);
+          continue;
+        }
+
+        const rowTiles = tiles[b][row];
+        if (!rowTiles) continue;
+
+        const tile = rowTiles[col];
+        tile.textContent = "";
+        tile.classList.remove("filled", "correct", "present", "absent", "has-char");
+
+        const hintChar = knownGreens[b][col];
+        if (hintChar) {
+          tile.dataset.hint = hintChar;
+          tile.classList.add("has-hint", "hint");
+        } else {
+          tile.classList.remove("has-hint", "hint");
+          tile.removeAttribute("data-hint");
+        }
+      }
+    }
+
+    function scoreGuess(guess, solution) {
+      const res = new Array(COLS).fill("absent");
+      const counts = {};
+
+      for (let i = 0; i < COLS; i++) {
+        const ch = solution[i];
+        counts[ch] = (counts[ch] || 0) + 1;
+      }
+
+      for (let i = 0; i < COLS; i++) {
+        if (guess[i] === solution[i]) {
+          res[i] = "correct";
+          counts[guess[i]]--;
+        }
+      }
+
+      for (let i = 0; i < COLS; i++) {
+        if (res[i] === "correct") continue;
+        const ch = guess[i];
+        if (counts[ch] > 0) {
+          res[i] = "present";
+          counts[ch]--;
+        }
+      }
+
+      return res;
+    }
+
+    function statusRank(status) {
+      if (status === "correct") return 3;
+      if (status === "present") return 2;
+      if (status === "absent") return 1;
+      return 0;
+    }
+
+    function updateBoardKeyboardState(boardIndex, guess, marks) {
+      const state = keyboardStates[boardIndex];
+      for (let i = 0; i < COLS; i++) {
+        const letter = guess[i];
+        const mark = marks[i];
+        const prev = state[letter];
+        if (statusRank(mark) > statusRank(prev)) state[letter] = mark;
+      }
+    }
+
+    function showModal(title, text, showShare) {
+      hideDailyNext();
+      if (modalTitleEl) modalTitleEl.textContent = title || "HUNDREDLE";
+      if (modalTextEl) modalTextEl.textContent = text || "";
+      if (copyShareBtn) copyShareBtn.style.display = showShare ? "inline-flex" : "none";
+      if (modalOverlay) modalOverlay.classList.remove("hidden");
+    }
+
+    function endGame(didWin) {
+      if (gameEnded) return;
+      gameEnded = true;
+
+      let minutes = 0;
+      if (gameStarted) {
+        const ms = Date.now() - startTime;
+        minutes = Math.max(0, Math.round(ms / 6000) / 10);
+      }
+
+      const plural = guessesUsed === 1 ? "guess" : "guesses";
+
+      if (didWin) {
+        showModal(
+          "YOU WON!",
+          "Time: " + minutes + " minutes • " + guessesUsed + "/" + MAX_GUESSES + " " + plural,
+          true
+        );
+
+        currentShareText =
+          "I guessed " + BOARD_COUNT + "/" + BOARD_COUNT + " wordles in " + minutes + " minutes\n" +
+          "I challenge you to do better!\n\n" +
+          CONFIG.SHARE_URL;
+      } else {
+        showModal(
+          "YOU LOSE",
+          "You used all " + MAX_GUESSES + " guesses before solving all boards.",
+          false
+        );
+        currentShareText = "";
+      }
+
+      showDailyNext();
+      saveState();
+    }
+
+    if (copyShareBtn) {
+      copyShareBtn.addEventListener("click", async () => {
+        if (!currentShareText) return;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: "Hundredle", text: currentShareText });
+          } catch (e) { }
+        } else if (navigator.clipboard && navigator.clipboard.writeText) {
+          try {
+            await navigator.clipboard.writeText(currentShareText);
+          } catch (e) { }
+        }
+      });
+    }
+
+    if (closeModalBtn) {
+      closeModalBtn.addEventListener("click", () => {
+        if (modalOverlay) modalOverlay.classList.add("hidden");
+        hideDailyNext();
+      });
+    }
+
+    function openResetConfirm() {
+      if (!SOLUTIONS.length) return;
+      if (confirmOverlay) confirmOverlay.classList.remove("hidden");
+    }
+
+    function closeResetConfirm() {
+      if (confirmOverlay) confirmOverlay.classList.add("hidden");
+    }
+
+    async function resetGame() {
+      closeResetConfirm();
+      if (modalOverlay) modalOverlay.classList.add("hidden");
+      hideDailyNext();
+
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) { }
+
+      // wipe runtime state
+      SOLUTIONS = [];
+      BOARD_COUNT = 0;
+      guessesHistory = [];
+      guessesUsed = 0;
+      currentGuess = "";
+      solvedCount = 0;
+      activeBoard = 0;
+      currentHighlightRow = -1;
+      gameStarted = false;
+      gameEnded = false;
+      startTime = 0;
+      boardsScrollTop = 0;
+
+      // fast UI clear
+      if (container) container.innerHTML = "";
+      if (keyboardEl) keyboardEl.innerHTML = "";
+      updateUI();
+
+      await initGame();
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => openResetConfirm());
+    }
+
+    if (confirmCancelBtn) {
+      confirmCancelBtn.addEventListener("click", () => closeResetConfirm());
+    }
+
+    if (confirmYesBtn) {
+      confirmYesBtn.addEventListener("click", () => resetGame());
+    }
+
+
+    function handleLetter(key) {
+      if (gameEnded) return;
+      if (!SOLUTIONS.length) return;
+      if (guessesUsed >= MAX_GUESSES) return;
+      if (currentGuess.length >= COLS) return;
+
+      const letter = key.toUpperCase();
+      if (!/^[A-Z]$/.test(letter)) return;
+
+      const row = guessesUsed;
+      const col = currentGuess.length;
+      currentGuess += letter;
+
+      setLetter(row, col, letter);
+      saveState();
+    }
+
+    function handleBackspace() {
+      if (gameEnded) return;
+      if (!SOLUTIONS.length) return;
+      if (guessesUsed >= MAX_GUESSES) return;
+      if (currentGuess.length === 0) return;
+
+      const row = guessesUsed;
+      const col = currentGuess.length - 1;
+      currentGuess = currentGuess.slice(0, -1);
+
+      clearLetter(row, col);
+      saveState();
+    }
+
+    function handleEnter() {
+      if (gameEnded) return;
+      if (!SOLUTIONS.length) return;
+      if (guessesUsed >= MAX_GUESSES) return;
+      if (currentGuess.length !== COLS) return;
+
+      if (!gameStarted) {
+        gameStarted = true;
+        startTime = Date.now();
+      }
+
+      const guess = currentGuess.toUpperCase();
+      const row = guessesUsed;
+
+      guessesHistory[guessesUsed] = guess;
+
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue;
+
+        const solution = SOLUTIONS[b];
+        const marks = scoreGuess(guess, solution);
+
+        if (!visibleBoards.has(b) && b !== activeBoard) {
+          // Even if not visible, we must check for solve and update keyboard status
+          if (guess === solution) {
+            solved[b] = true;
+            solvedCount++;
+            // We can't update statusEl or boardEl yet if we are super lazy, 
+            // but let's at least update these since they are few.
+            const statusEl = boardStatusEls[b];
+            if (statusEl) {
+              statusEl.textContent = "SOLVED";
+              statusEl.style.color = "#22c55e";
+            }
+            const boardEl = boardElems[b];
+            if (boardEl) boardEl.classList.add("board-solved");
+          }
+          updateBoardKeyboardState(b, guess, marks);
+          for (let c = 0; c < COLS; c++) {
+            if (marks[c] === "correct") knownGreens[b][c] = guess[c];
+          }
+          boardsToSync.add(b);
+          continue;
+        }
+
+        const rowTiles = tiles[b][row];
+        if (!rowTiles) continue;
+
+        for (let c = 0; c < COLS; c++) {
+          const tile = rowTiles[c];
+          tile.classList.remove("correct", "present", "absent", "hint", "has-hint");
+          tile.classList.add("filled", "has-char", marks[c]);
+
+          if (marks[c] === "correct") knownGreens[b][c] = guess[c];
+        }
+
+        updateBoardKeyboardState(b, guess, marks);
+
+        if (!solved[b] && guess === solution) {
+          solved[b] = true;
+          solvedCount++;
+
+          const statusEl = boardStatusEls[b];
+          if (statusEl) {
+            statusEl.textContent = "SOLVED";
+            statusEl.style.color = "#22c55e";
+          }
+
+          const boardEl = boardElems[b];
+          if (boardEl) boardEl.classList.add("board-solved");
+        }
+      }
+
+      guessesUsed++;
+      currentGuess = "";
+
+      updateVisibleRows();
+      updateUI();
+      applyHintsToCurrentRow();
+      refreshCurrentRowHighlight();
+      renderKeyboard();
+
+      if (!gameEnded) {
+        if (solvedCount === BOARD_COUNT) endGame(true);
+        else if (guessesUsed >= MAX_GUESSES) endGame(false);
+      }
+
+      saveState();
+    }
+
+    function handleKeydown(e) {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const key = e.key;
+
+      if (key === "Backspace") { e.preventDefault(); handleBackspace(); return; }
+      if (key === "Enter") { e.preventDefault(); handleEnter(); return; }
+
+      if (/^[a-zA-Z]$/.test(key)) { e.preventDefault(); handleLetter(key); }
+    }
+
+    const keyboardLayout = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
+
+    function buildKeyboard() {
+      keyboardLayout.forEach((rowStr, rowIndex) => {
+        const rowDiv = document.createElement("div");
+        rowDiv.className = "key-row";
+
+        if (rowIndex === 2) {
+          const enterKey = document.createElement("button");
+          enterKey.type = "button";
+          enterKey.className = "key key-wide";
+          enterKey.dataset.key = "ENTER";
+          enterKey.innerHTML = "<span class='key-label-small'>Enter</span>";
+          enterKey.addEventListener("click", () => handleEnter());
+          rowDiv.appendChild(enterKey);
+        }
+
+        for (const ch of rowStr) {
+          const keyBtn = document.createElement("button");
+          keyBtn.type = "button";
+          keyBtn.className = "key";
+          keyBtn.dataset.key = ch;
+          keyBtn.textContent = ch;
+          keyBtn.addEventListener("click", () => handleLetter(ch));
+          rowDiv.appendChild(keyBtn);
+        }
+
+        if (rowIndex === 2) {
+          const backKey = document.createElement("button");
+          backKey.type = "button";
+          backKey.className = "key key-wide";
+          backKey.dataset.key = "BACKSPACE";
+          backKey.innerHTML = "<span class='key-label-small'>Backspace</span>";
+          backKey.addEventListener("click", () => handleBackspace());
+          rowDiv.appendChild(backKey);
+        }
+
+        keyboardEl.appendChild(rowDiv);
+      });
+    }
+
+    function renderKeyboard() {
+      const keys = keyboardEl.querySelectorAll(".key");
+      if (!keyboardStates || !keyboardStates.length) return;
+      const state = keyboardStates[activeBoard] || {};
+
+      keys.forEach(keyEl => {
+        const val = keyEl.dataset.key;
+        keyEl.classList.remove("key-correct", "key-present", "key-absent");
+
+        if (!val || val === "ENTER" || val === "BACKSPACE") return;
+
+        const letter = val.toUpperCase();
+        const status = state[letter];
+
+        if (status === "correct") keyEl.classList.add("key-correct");
+        else if (status === "present") keyEl.classList.add("key-present");
+        else if (status === "absent") keyEl.classList.add("key-absent");
+      });
+    }
+
+    function setActiveBoard(index) {
+      if (!boardElems || !boardElems.length) return;
+      if (index < 0 || index >= BOARD_COUNT) return;
+
+      if (boardElems[activeBoard]) boardElems[activeBoard].classList.remove("board-active");
+      activeBoard = index;
+      if (boardElems[activeBoard]) boardElems[activeBoard].classList.add("board-active");
+
+      renderKeyboard();
+      saveState();
+    }
+
+    function resetRuntimeStateFromScratch() {
+      tiles = new Array(BOARD_COUNT);
+      rows = new Array(BOARD_COUNT);
+      boardStatusEls = new Array(BOARD_COUNT);
+      boardElems = new Array(BOARD_COUNT);
+      boardGrids = new Array(BOARD_COUNT);
+      keyboardStates = new Array(BOARD_COUNT);
+      knownGreens = new Array(BOARD_COUNT);
+      solved = new Array(BOARD_COUNT).fill(false);
+
+      solvedCount = 0;
+      visibleRows = INITIAL_VISIBLE_ROWS;
+      currentHighlightRow = -1;
+      currentShareText = "";
+      container.innerHTML = "";
+
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        keyboardStates[b] = {};
+        knownGreens[b] = new Array(COLS).fill(null);
+        tiles[b] = [];
+        rows[b] = [];
+
+        const board = document.createElement("div");
+        board.className = "board";
+        boardElems[b] = board;
+
+        const header = document.createElement("div");
+        header.className = "board-header";
+
+        const left = document.createElement("div");
+        left.className = "board-left";
+
+        const indexPill = document.createElement("span");
+        indexPill.className = "board-index-pill";
+        indexPill.textContent = "WORD " + (b + 1);
+
+        const status = document.createElement("span");
+        status.className = "board-status";
+        status.textContent = "";
+        boardStatusEls[b] = status;
+
+        left.appendChild(indexPill);
+        header.appendChild(left);
+        header.appendChild(status);
+        board.appendChild(header);
+
+        const grid = document.createElement("div");
+        grid.className = "grid";
+        boardGrids[b] = grid;
+
+        const initialRowsToCreate = Math.max(INITIAL_VISIBLE_ROWS, guessesUsed + 1);
+        for (let r = 0; r < initialRowsToCreate && r < ROWS; r++) {
+          const rowDiv = createRow(b, r);
+          if (rowDiv) rowDiv.style.display = "grid";
+        }
+
+        board.dataset.index = b;
+        grid.appendChild(rowDiv);
+        board.appendChild(grid);
+        container.appendChild(board);
+
+        board.addEventListener("click", () => setActiveBoard(b));
+        if (intersectionObserver) intersectionObserver.observe(board);
+      }
+
+      keyboardEl.innerHTML = "";
+      buildKeyboard();
+    }
+
+    function replayGuesses() {
+      for (let row = 0; row < guessesUsed; row++) {
+        const guess = guessesHistory[row];
+        if (!guess || guess.length !== COLS) continue;
+
+        for (let b = 0; b < BOARD_COUNT; b++) {
+          if (solved[b]) continue;
+
+          const solution = SOLUTIONS[b];
+          const marks = scoreGuess(guess, solution);
+          const rowTiles = tiles[b][row];
+          if (!rowTiles) continue;
+
+          for (let c = 0; c < COLS; c++) {
+            const tile = rowTiles[c];
+            tile.textContent = guess[c];
+            tile.classList.add("filled", "has-char");
+            tile.classList.remove("correct", "present", "absent", "hint", "has-hint");
+            tile.classList.add(marks[c]);
+
+            if (marks[c] === "correct") knownGreens[b][c] = guess[c];
+          }
+
+          updateBoardKeyboardState(b, guess, marks);
+
+          if (!solved[b] && guess === solution) {
+            solved[b] = true;
+            solvedCount++;
+
+            const statusEl = boardStatusEls[b];
+            if (statusEl) {
+              statusEl.textContent = "SOLVED";
+              statusEl.style.color = "#22c55e";
+            }
+
+            const boardEl = boardElems[b];
+            if (boardEl) boardEl.classList.add("board-solved");
+          }
+        }
+      }
+    }
+
+    function restoreCurrentGuessRow() {
+      if (gameEnded) return;
+      if (!currentGuess) return;
+      if (guessesUsed >= MAX_GUESSES) return;
+
+      const row = guessesUsed;
+
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (!rows[b][row]) {
+          const rowDiv = createRow(b, row);
+          if (rowDiv) rowDiv.style.display = "grid";
+        } else {
+          rows[b][row].style.display = "grid";
+        }
+      }
+
+      for (let i = 0; i < currentGuess.length && i < COLS; i++) {
+        setLetter(row, i, currentGuess[i]);
+      }
+    }
+
+    function isValidSavedState(saved) {
+      if (!saved) return false;
+      if (typeof saved.dailyDate !== "string") return false;
+      if (!Array.isArray(saved.guessesHistory)) return false;
+      return true;
+    }
+
+    async function initGame() {
+      if (!intersectionObserver) initIntersectionObserver();
+      // Load today's global 100 words from the Netlify Function
+      let daily = null;
+      try {
+        daily = await fetchDailyFromServer();
+      } catch (e) {
+        showModal(
+          "NO WORDS",
+          "Could not load today's words (/.netlify/functions/daily).",
+          false
+        );
+        return;
+      }
+
+      DAILY_DATE = typeof daily.date === "string" ? daily.date : israelDateKey(new Date());
+
+      SOLUTIONS = (Array.isArray(daily.words) ? daily.words : [])
+        .map(w => (typeof w === "string" ? w.toUpperCase() : ""))
+        .filter(w => w.length === COLS);
+
+      if (!SOLUTIONS.length) {
+        showModal("NO WORDS", "Daily words are missing. Try refreshing.", false);
+        return;
+      }
+
+      BOARD_COUNT = Math.min(CONFIG.BOARD_COUNT, SOLUTIONS.length);
+
+      // 3) load local progress ONLY if it matches today's Israel date
+      let saved = null;
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) saved = JSON.parse(raw);
+      } catch (e) { saved = null; }
+
+      const canUseSaved = isValidSavedState(saved) && saved.dailyDate === DAILY_DATE;
+
+      if (canUseSaved) {
+        guessesHistory = saved.guessesHistory
+          .map(g => (typeof g === "string" ? g.toUpperCase().slice(0, COLS) : ""))
+          .filter(g => g.length === COLS);
+
+        guessesUsed =
+          typeof saved.guessesUsed === "number"
+            ? Math.min(saved.guessesUsed, guessesHistory.length, MAX_GUESSES)
+            : Math.min(guessesHistory.length, MAX_GUESSES);
+
+        currentGuess =
+          typeof saved.currentGuess === "string"
+            ? saved.currentGuess.toUpperCase().slice(0, COLS)
+            : "";
+
+        activeBoard =
+          typeof saved.activeBoard === "number"
+            ? Math.max(0, Math.min(saved.activeBoard, BOARD_COUNT - 1))
+            : 0;
+
+        gameEnded = !!saved.gameEnded;
+        gameStarted = !!saved.gameStarted;
+        startTime = typeof saved.startTime === "number" ? saved.startTime : 0;
+
+        boardsScrollTop = typeof saved.boardsScrollTop === "number" ? saved.boardsScrollTop : 0;
+      } else {
+        // new day OR no saved state
+        guessesHistory = [];
+        guessesUsed = 0;
+        currentGuess = "";
+        activeBoard = 0;
+        gameEnded = false;
+        gameStarted = false;
+        startTime = 0;
+        boardsScrollTop = 0;
+
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) { }
+      }
+
+      resetRuntimeStateFromScratch();
+      replayGuesses();
+      restoreCurrentGuessRow();
+
+      updateVisibleRows();
+      updateUI();
+      applyHintsToCurrentRow();
+      refreshCurrentRowHighlight();
+      setActiveBoard(activeBoard);
+
+      if (boardsScrollEl) boardsScrollEl.scrollTop = Math.max(0, boardsScrollTop || 0);
+
+      window.removeEventListener("keydown", handleKeydown);
+      window.addEventListener("keydown", handleKeydown);
+
+      if (gameEnded) {
+        // אם המשחק נגמר, תציג מודל בלי לשבור כלום + טיימר ליום הבא
+        const title = solvedCount === BOARD_COUNT ? "YOU WON!" : "GAME OVER";
+        const text =
+          solvedCount === BOARD_COUNT
+            ? "Completed all boards in " + guessesUsed + " guesses."
+            : "Saved state loaded (finished).";
+        showModal(title, text, solvedCount === BOARD_COUNT);
+        showDailyNext();
+      }
+
+      saveState();
+    }
+
+    initGame();
+  </script>
+
+</body>
+
+</html>

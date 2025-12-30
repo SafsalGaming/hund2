@@ -1,0 +1,8 @@
+{
+  "name": "hundredle",
+  "private": true,
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "luxon": "^3.5.0"
+  }
+}
