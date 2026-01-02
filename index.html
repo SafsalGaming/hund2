@@ -27,6 +27,185 @@
       --text-faint: #6b7280;
       --green: #22c55e;
       --yellow: #eab308;
+      --shadow-color: rgba(0, 0, 0, 0.5);
+    }
+
+    /* ANIMATIONS */
+    @keyframes tilePop {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes tileFlip {
+      0% {
+        transform: rotateX(0deg);
+      }
+
+      50% {
+        transform: rotateX(90deg);
+        background: #020617;
+      }
+
+      100% {
+        transform: rotateX(0deg);
+      }
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20%,
+      60% {
+        transform: translateX(-4px);
+      }
+
+      40%,
+      80% {
+        transform: translateX(4px);
+      }
+    }
+
+    @keyframes solveGlow {
+      0% {
+        box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+      }
+
+      50% {
+        box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+      }
+
+      100% {
+        box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+      }
+    }
+
+    .tile-pop {
+      animation: tilePop 0.1s ease-in-out;
+    }
+
+    .tile-flip {
+      animation: tileFlip 0.5s ease-in-out forwards;
+    }
+
+    .shake {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    .board-solved-glow {
+      animation: solveGlow 2s ease-in-out infinite;
+    }
+
+    /* UI ENHANCEMENTS */
+    .fab-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 100;
+    }
+
+    .fab {
+      width: 56px;
+      height: 56px;
+      border-radius: 28px;
+      background: var(--accent);
+      color: #020617;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .fab:hover {
+      transform: scale(1.05);
+      background: #7dd3fc;
+    }
+
+    .fab svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .minimap-btn {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-main);
+      border: 1px solid var(--border-soft);
+    }
+
+    .minimap-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.95);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .minimap-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .minimap-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 8px;
+      max-width: 600px;
+      margin: 0 auto;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .minimap-dot {
+      aspect-ratio: 1/1;
+      background: rgba(31, 41, 55, 0.8);
+      border-radius: 4px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--text-faint);
+      transition: all 0.2s;
+    }
+
+    .minimap-dot:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .minimap-dot.solved {
+      background: var(--green);
+      border-color: var(--green);
+      color: #052e16;
+    }
+
+    .minimap-dot.active {
+      box-shadow: 0 0 0 2px var(--accent);
     }
 
     html,
@@ -616,6 +795,30 @@
     </div>
   </div>
 
+  <div class="fab-container">
+    <button id="minimap-toggle" class="fab minimap-btn" title="Show Board Map">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="3" y1="9" x2="21" y2="9"></line>
+        <line x1="3" y1="15" x2="21" y2="15"></line>
+        <line x1="9" y1="3" x2="9" y2="21"></line>
+        <line x1="15" y1="3" x2="15" y2="21"></line>
+      </svg>
+    </button>
+    <button id="next-unsolved-btn" class="fab" title="Jump to next unsolved board">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+  </div>
+
+  <div id="minimap-overlay" class="minimap-overlay hidden">
+    <div class="minimap-header">
+      <h2 style="letter-spacing: 0.2em; font-size: 1.2rem;">BOARD SELECTOR</h2>
+      <button id="close-minimap-btn" class="reset-btn" style="font-size: 0.9rem; padding: 8px 20px;">Close</button>
+    </div>
+    <div id="minimap-grid" class="minimap-grid"></div>
+  </div>
 
   <script type="module">
     const TZ = "Asia/Jerusalem";
@@ -1218,17 +1421,74 @@
       await initGame();
     }
 
-    if (resetBtn) {
-      resetBtn.addEventListener("click", () => openResetConfirm());
-    }
-
     if (confirmCancelBtn) {
       confirmCancelBtn.addEventListener("click", () => closeResetConfirm());
     }
 
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => openResetConfirm());
+    }
     if (confirmYesBtn) {
       confirmYesBtn.addEventListener("click", () => resetGame());
     }
+
+    // --- NEW UI LISTENERS ---
+    const minimapToggle = document.getElementById("minimap-toggle");
+    const minimapOverlay = document.getElementById("minimap-overlay");
+    const closeMinimapBtn = document.getElementById("close-minimap-btn");
+    const minimapGrid = document.getElementById("minimap-grid");
+    const nextUnsolvedBtn = document.getElementById("next-unsolved-btn");
+
+    function renderMiniMap() {
+      minimapGrid.innerHTML = "";
+      for (let i = 0; i < BOARD_COUNT; i++) {
+        const dot = document.createElement("div");
+        dot.className = "minimap-dot" + (solved[i] ? " solved" : "") + (i === activeBoard ? " active" : "");
+        dot.textContent = i + 1;
+        dot.addEventListener("click", () => {
+          setActiveBoard(i);
+          const boardEl = boardElems[i];
+          if (boardEl) boardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          minimapOverlay.classList.add("hidden");
+        });
+        minimapGrid.appendChild(dot);
+      }
+    }
+
+    function updateMiniMapStatus() {
+      if (minimapOverlay.classList.contains("hidden")) return;
+      renderMiniMap();
+    }
+
+    minimapToggle.addEventListener("click", () => {
+      renderMiniMap();
+      minimapOverlay.classList.remove("hidden");
+    });
+
+    closeMinimapBtn.addEventListener("click", () => {
+      minimapOverlay.classList.add("hidden");
+    });
+
+    nextUnsolvedBtn.addEventListener("click", () => {
+      let next = -1;
+      // Start from current active board and loop
+      for (let i = 1; i <= BOARD_COUNT; i++) {
+        const idx = (activeBoard + i) % BOARD_COUNT;
+        if (!solved[idx]) {
+          next = idx;
+          break;
+        }
+      }
+      if (next !== -1) {
+        setActiveBoard(next);
+        const boardEl = boardElems[next];
+        if (boardEl) boardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else {
+        // Pulse background if all solved
+        nextUnsolvedBtn.style.animation = "shake 0.4s ease";
+        setTimeout(() => nextUnsolvedBtn.style.animation = "", 400);
+      }
+    });
 
 
     function handleLetter(key) {
@@ -1245,6 +1505,19 @@
       currentGuess += letter;
 
       setLetter(row, col, letter);
+
+      // Animation
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue;
+        if (!visibleBoards.has(b) && b !== activeBoard) continue;
+        const tile = tiles[b][row][col];
+        if (tile) {
+          tile.classList.remove("tile-pop");
+          void tile.offsetWidth; // trigger reflow
+          tile.classList.add("tile-pop");
+        }
+      }
+
       saveState();
     }
 
@@ -1285,19 +1558,20 @@
         const marks = scoreGuess(guess, solution);
 
         if (!visibleBoards.has(b) && b !== activeBoard) {
-          // Even if not visible, we must check for solve and update keyboard status
+          // Check solve status even if offscreen
           if (guess === solution) {
             solved[b] = true;
             solvedCount++;
-            // We can't update statusEl or boardEl yet if we are super lazy, 
-            // but let's at least update these since they are few.
             const statusEl = boardStatusEls[b];
             if (statusEl) {
               statusEl.textContent = "SOLVED";
               statusEl.style.color = "#22c55e";
             }
             const boardEl = boardElems[b];
-            if (boardEl) boardEl.classList.add("board-solved");
+            if (boardEl) {
+              boardEl.classList.add("board-solved");
+              boardEl.classList.add("board-solved-glow");
+            }
           }
           updateBoardKeyboardState(b, guess, marks);
           for (let c = 0; c < COLS; c++) {
@@ -1310,29 +1584,40 @@
         const rowTiles = tiles[b][row];
         if (!rowTiles) continue;
 
+        // SEQUENTIAL ANIMATION
         for (let c = 0; c < COLS; c++) {
           const tile = rowTiles[c];
-          tile.classList.remove("correct", "present", "absent", "hint", "has-hint");
-          tile.classList.add("filled", "has-char", marks[c]);
+          setTimeout(() => {
+            tile.classList.add("tile-flip");
+            setTimeout(() => {
+              tile.classList.remove("correct", "present", "absent", "hint", "has-hint");
+              tile.classList.add("filled", "has-char", marks[c]);
+              if (marks[c] === "correct") knownGreens[b][c] = guess[c];
 
-          if (marks[c] === "correct") knownGreens[b][c] = guess[c];
+              if (c === COLS - 1) {
+                // Check solve after last tile flips
+                if (!solved[b] && guess === solution) {
+                  solved[b] = true;
+                  solvedCount++;
+                  const statusEl = boardStatusEls[b];
+                  if (statusEl) {
+                    statusEl.textContent = "SOLVED";
+                    statusEl.style.color = "#22c55e";
+                  }
+                  const boardEl = boardElems[b];
+                  if (boardEl) {
+                    boardEl.classList.add("board-solved");
+                    boardEl.classList.add("board-solved-glow");
+                    if (b === activeBoard) updateMiniMapStatus();
+                  }
+                }
+                if (b === activeBoard && solvedCount === BOARD_COUNT) endGame(true);
+              }
+            }, 250);
+          }, c * 150);
         }
 
         updateBoardKeyboardState(b, guess, marks);
-
-        if (!solved[b] && guess === solution) {
-          solved[b] = true;
-          solvedCount++;
-
-          const statusEl = boardStatusEls[b];
-          if (statusEl) {
-            statusEl.textContent = "SOLVED";
-            statusEl.style.color = "#22c55e";
-          }
-
-          const boardEl = boardElems[b];
-          if (boardEl) boardEl.classList.add("board-solved");
-        }
       }
 
       guessesUsed++;
@@ -1345,8 +1630,11 @@
       renderKeyboard();
 
       if (!gameEnded) {
-        if (solvedCount === BOARD_COUNT) endGame(true);
-        else if (guessesUsed >= MAX_GUESSES) endGame(false);
+        if (solvedCount === BOARD_COUNT) {
+          setTimeout(() => endGame(true), 1500);
+        } else if (guessesUsed >= MAX_GUESSES) {
+          endGame(false);
+        }
       }
 
       saveState();
