@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Hundredle - 100 Boards</title>
@@ -9,421 +10,689 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-:root{
-  --topbar-h: 38px;      /* קטן יותר */
-  --keyboard-h: 185px;   /* קטן יותר */
+    :root {
+      --topbar-h: 38px;
+      /* קטן יותר */
+      --keyboard-h: 185px;
+      /* קטן יותר */
 
-  --bg:#121213;
-  --bg-panel:#1a1a1b;
-  --border:#3a3a3c;
-  --text-main:#ffffff;
-  --text-soft:#818384;
-  --text-faint:#565758;
-  --green:#538d4e;
-  --yellow:#b59f3b;
-  --absent:#3a3a3c;
-  --accent:#56a0ff;
-  --danger:#ef4444;
-}
+      --bg: #121213;
+      --bg-panel: #1a1a1b;
+      --border: #3a3a3c;
+      --text-main: #ffffff;
+      --text-soft: #818384;
+      --text-faint: #565758;
+      --green: #538d4e;
+      --yellow: #b59f3b;
+      --absent: #3a3a3c;
+      --accent: #56a0ff;
+      --danger: #ef4444;
+    }
 
-*{ box-sizing:border-box; margin:0; padding:0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-html,body{ height:100%; -webkit-font-smoothing:antialiased; }
+    html,
+    body {
+      height: 100%;
+      -webkit-font-smoothing: antialiased;
+    }
 
-body{
-  font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:var(--bg);
-  color:var(--text-main);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:20px 10px;
-  gap:20px;
-  overflow:hidden;
-}
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px;
+      gap: 20px;
+      overflow: hidden;
+    }
 
-.app-shell{
-  width:100%;
-  max-width:1600px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;              /* היה 20px */
-  height:100%;
-}
+    .app-shell {
+      width: 100%;
+      max-width: 1600px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      /* היה 20px */
+      height: 100%;
+    }
 
-.top-bar{
-  height:var(--topbar-h);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;              /* היה 15px + עוד override */
-  flex-wrap:nowrap;      /* שלא יעשה שתי שורות */
-  flex-shrink:0;
-}
+    .top-bar {
+      height: var(--topbar-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      /* היה 15px + עוד override */
+      flex-wrap: nowrap;
+      /* שלא יעשה שתי שורות */
+      flex-shrink: 0;
+    }
 
-.title-wrap{ display:flex; flex-direction:column; gap:4px; }
+    .title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
 
-h1{
-  font-size:1.8rem;      /* היה 2.2rem */
-  line-height:1;         /* מוריד גובה ויזואלי */
-  font-weight:800;
-  letter-spacing:0.1em;
-  color:var(--text-main);
-  text-transform:uppercase;
-}
+    h1 {
+      font-size: 1.8rem;
+      /* היה 2.2rem */
+      line-height: 1;
+      /* מוריד גובה ויזואלי */
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--text-main);
+      text-transform: uppercase;
+    }
 
-.stats{
-  display:flex;
-  gap:10px;              /* היה 12px */
-  align-items:center;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
+    .stats {
+      display: flex;
+      gap: 10px;
+      /* היה 12px */
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
 
-.stat-card{
-  padding:4px 12px;      /* היה 6px 16px */
-  border-radius:4px;
-  background:var(--bg-panel);
-  border:1px solid var(--border);
-}
+    .stat-card {
+      padding: 4px 12px;
+      /* היה 6px 16px */
+      border-radius: 4px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+    }
 
-.stat-value{
-  font-weight:600;
-  font-size:0.8rem;      /* היה 0.85rem */
-  color:var(--text-soft);
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
-}
+    .stat-value {
+      font-weight: 600;
+      font-size: 0.8rem;
+      /* היה 0.85rem */
+      color: var(--text-soft);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-.reset-btn{
-  background:rgba(239,68,68,0.10);
-  border:1px solid rgba(239,68,68,0.22);
-  color:#fca5a5;
-  padding:4px 12px;      /* היה 6px 14px */
-  border-radius:10px;
-  font-weight:700;
-  font-size:0.75rem;
-  text-transform:uppercase;
-  letter-spacing:0.1em;
-  cursor:pointer;
-  transition:transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
-}
-.reset-btn:hover{
-  background:rgba(239,68,68,0.20);
-  border-color:rgba(239,68,68,0.40);
-  transform:translateY(-1px);
-}
-.reset-btn:active{ transform:translateY(0px); }
+    .reset-btn {
+      background: rgba(239, 68, 68, 0.10);
+      border: 1px solid rgba(239, 68, 68, 0.22);
+      color: #fca5a5;
+      padding: 4px 12px;
+      /* היה 6px 14px */
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+    }
 
-.game-container{
-  width:100%;
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  min-height:0;
-  gap:15px;
-}
+    .reset-btn:hover {
+      background: rgba(239, 68, 68, 0.20);
+      border-color: rgba(239, 68, 68, 0.40);
+      transform: translateY(-1px);
+    }
 
-.boards-scroll{
-  flex:1;
-  min-height:0;
-  overflow-y:auto;
-  padding:10px;
-  scroll-behavior:smooth;
-}
+    .reset-btn:active {
+      transform: translateY(0px);
+    }
 
-.boards-scroll::-webkit-scrollbar{ width:6px; }
-.boards-scroll::-webkit-scrollbar-track{ background:transparent; }
-.boards-scroll::-webkit-scrollbar-thumb{
-  background:rgba(255,255,255,0.10);
-  border-radius:10px;
-}
+    .game-container {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      gap: 15px;
+    }
 
-.board-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:15px;
-  align-items:flex-start;
-}
+    .boards-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 10px;
+      scroll-behavior: smooth;
+    }
 
-.board{
-  background:var(--bg-panel);
-  border-radius:4px;
-  border:1px solid var(--border);
-  padding:10px;
-  cursor:pointer;
-  content-visibility:auto;
-  contain-intrinsic-size:180px 260px;
-  transition:border-color 0.12s ease, transform 0.12s ease;
-}
-.board:hover{
-  border-color:var(--text-soft);
-  transform:translateY(-1px);
-}
-.board-active{ border-color:var(--accent); }
-.board-solved{
-  opacity:0.5;
-  filter:grayscale(0.8);
-  pointer-events:none;
-}
+    .boards-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
 
-.board-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:8px;
-}
+    .boards-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
 
-.board-left{ display:flex; align-items:center; gap:8px; }
+    .boards-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.10);
+      border-radius: 10px;
+    }
 
-.board-index-pill{
-  font-size:0.7rem;
-  font-weight:700;
-  color:var(--text-soft);
-  text-transform:uppercase;
-  letter-spacing:0.06em;
-}
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+      align-items: flex-start;
+    }
 
-.board-status{
-  font-size:0.65rem;
-  font-weight:800;
-  letter-spacing:0.1em;
-  color:var(--green);
-  text-transform:uppercase;
-}
+    .board {
+      background: var(--bg-panel);
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      padding: 10px;
+      cursor: pointer;
+      content-visibility: auto;
+      contain-intrinsic-size: 180px 260px;
+      transition: border-color 0.12s ease, transform 0.12s ease;
+    }
 
-.grid{ display:flex; flex-direction:column; gap:4px; }
+    .board:hover {
+      border-color: var(--text-soft);
+      transform: translateY(-1px);
+    }
 
-.row{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:4px;
-}
+    .board-active {
+      border-color: var(--accent);
+    }
 
-.tile{
-  width:100%;
-  aspect-ratio:1/1;
-  border:2px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  font-size:1.2rem;
-  color:var(--text-main);
-  text-transform:uppercase;
-  user-select:none;
-  position:relative;
-}
+    .board-solved {
+      opacity: 0.5;
+      filter: grayscale(0.8);
+      pointer-events: none;
+    }
 
-.tile.filled{ border-color:var(--text-faint); }
-.tile.current{ border-color:var(--accent); }
+    .board-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
 
-.tile.correct{
-  background:var(--green);
-  border-color:var(--green);
-}
-.tile.present{
-  background:var(--yellow);
-  border-color:var(--yellow);
-}
-.tile.absent{
-  background:var(--absent);
-  border-color:var(--absent);
-}
+    .board-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-/* Hints (your JS uses has-hint + hint) */
-.tile.hint{
-  border-style:dashed;
-  border-color:var(--border);
-}
-.tile.has-hint:not(.has-char)::before{
-  content:attr(data-hint);
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--text-soft);
-  opacity:0.55;
-  font-size:0.9rem;
-  font-weight:800;
-  pointer-events:none;
-}
+    .board-index-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
 
-.keyboard-wrap{
-  height:var(--keyboard-h);  /* קטן יותר */
-  flex-shrink:0;
-  display:flex;
-  align-items:center;
-  padding:10px;
-  border-top:1px solid var(--border);
-}
+    .board-status {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--green);
+      text-transform: uppercase;
+    }
 
-.keyboard{
-  max-width:600px;
-  margin:0 auto;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
 
-.key-row{
-  display:flex;
-  justify-content:center;
-  gap:6px;
-}
+    .row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+    }
 
-.key{
-  min-width:36px;
-  height:52px;
-  border-radius:4px;
-  background:#818384;
-  color:var(--text-main);
-  font-weight:800;
-  font-size:0.9rem;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  user-select:none;
-  border:none;
-  outline:none;
-  transition:transform 0.06s ease, filter 0.12s ease;
-}
-.key:hover{ filter:brightness(1.05); }
-.key:active{ transform:translateY(2px); }
+    .tile {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--text-main);
+      text-transform: uppercase;
+      user-select: none;
+      position: relative;
+    }
 
-.key-wide{
-  min-width:65px;
-  font-size:0.75rem;
-  text-transform:uppercase;
-}
+    .tile.filled {
+      border-color: var(--text-faint);
+    }
 
-.key-label-small{
-  font-size:0.75rem;
-  text-transform:uppercase;
-  letter-spacing:0.06em;
-}
+    .tile.current {
+      border-color: var(--accent);
+    }
 
-.key-correct{ background:var(--green); }
-.key-present{ background:var(--yellow); }
-.key-absent{
-  background:var(--absent);
-  color:#fff;
-}
+    .tile.correct {
+      background: var(--green);
+      border-color: var(--green);
+    }
 
-.modal-overlay{
-  background:rgba(0,0,0,0.85);
-  backdrop-filter:blur(10px);
-  position:fixed;
-  inset:0;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+    .tile.present {
+      background: var(--yellow);
+      border-color: var(--yellow);
+    }
 
-.modal{
-  background:var(--bg-panel);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:30px;
-  max-width:420px;
-  width:90%;
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
+    .tile.absent {
+      background: var(--absent);
+      border-color: var(--absent);
+    }
 
-.modal-title{
-  font-size:2rem;
-  font-weight:900;
-  margin-bottom:2px;
-  letter-spacing:0.1em;
-  text-transform:uppercase;
-}
+    /* Hints (your JS uses has-hint + hint) */
+    .tile.hint {
+      border-style: dashed;
+      border-color: var(--border);
+    }
 
-.modal-text{
-  font-size:0.95rem;
-  color:var(--text-soft);
-  line-height:1.35;
-  margin-bottom:6px;
-}
+    .tile.has-hint:not(.has-char)::before {
+      content: attr(data-hint);
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-soft);
+      opacity: 0.55;
+      font-size: 0.9rem;
+      font-weight: 800;
+      pointer-events: none;
+    }
 
-.modal-buttons{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:6px;
-}
+    .keyboard-wrap {
+      height: var(--keyboard-h);
+      /* קטן יותר */
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-top: 1px solid var(--border);
+    }
 
-.modal-btn{
-  background:var(--accent);
-  color:#000;
-  padding:12px 24px;
-  border-radius:12px;
-  font-weight:900;
-  border:none;
-  cursor:pointer;
-  transition:transform 0.12s ease, filter 0.12s ease;
-}
-.modal-btn:hover{ transform:scale(1.04); filter:brightness(1.02); }
-.modal-btn.secondary{
-  background:#374151;
-  color:#fff;
-}
+    .keyboard {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
 
-.hidden{ display:none !important; }
+    .key-row {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
 
-.daily-next{
-  margin-top:15px;
-  padding-top:15px;
-  border-top:1px solid var(--border);
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  align-items:center;
-}
+    .key {
+      min-width: 36px;
+      height: 52px;
+      border-radius: 4px;
+      background: #818384;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      border: none;
+      outline: none;
+      transition: transform 0.06s ease, filter 0.12s ease;
+    }
 
-.daily-next-label{
-  font-size:0.75rem;
-  color:var(--text-soft);
-  text-transform:uppercase;
-  letter-spacing:0.1em;
-}
+    .key:hover {
+      filter: brightness(1.05);
+    }
 
-.daily-next-timer{
-  font-size:1.5rem;
-  font-weight:900;
-  margin-top:2px;
-  color:var(--accent);
-  letter-spacing:0.08em;
-  font-variant-numeric:tabular-nums;
-}
+    .key:active {
+      transform: translateY(2px);
+    }
 
-@media (max-width:600px){
-  body{ padding:14px 8px; gap:14px; }
+    .key-wide {
+      min-width: 65px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
 
-  .app-shell{ gap:12px; }
+    .key-label-small {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
 
-  :root{
-    --topbar-h: 34px;
-    --keyboard-h: 170px;
-  }
+    .key-correct {
+      background: var(--green);
+    }
 
-  h1{ font-size:1.45rem; line-height:1; }
+    .key-present {
+      background: var(--yellow);
+    }
 
-  .key{ min-width:30px; height:45px; font-size:0.8rem; }
-  .key-wide{ min-width:50px; }
-  .board-grid{ grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); }
-  .tile{ font-size:1.05rem; }
-}
+    .key-absent {
+      background: var(--absent);
+      color: #fff;
+    }
 
+    .modal-overlay {
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
+    .modal {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 30px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .modal-title {
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 2px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .modal-text {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .modal-btn {
+      background: var(--accent);
+      color: #000;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 900;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.12s ease, filter 0.12s ease;
+    }
+
+    .modal-btn:hover {
+      transform: scale(1.04);
+      filter: brightness(1.02);
+    }
+
+    .modal-btn.secondary {
+      background: #374151;
+      color: #fff;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .daily-next {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .daily-next-label {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .daily-next-timer {
+      font-size: 1.5rem;
+      font-weight: 900;
+      margin-top: 2px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ANIMATIONS */
+    @keyframes tilePop {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.08);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes tileFlip {
+      0% {
+        transform: rotateX(0deg);
+      }
+
+      50% {
+        transform: rotateX(90deg);
+        background: var(--bg-panel);
+      }
+
+      100% {
+        transform: rotateX(0deg);
+      }
+    }
+
+    @keyframes solveGlow {
+      0% {
+        box-shadow: 0 0 0 rgba(83, 141, 78, 0);
+      }
+
+      50% {
+        box-shadow: 0 0 15px rgba(83, 141, 78, 0.5);
+      }
+
+      100% {
+        box-shadow: 0 0 0 rgba(83, 141, 78, 0);
+      }
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20%,
+      60% {
+        transform: translateX(-4px);
+      }
+
+      40%,
+      80% {
+        transform: translateX(4px);
+      }
+    }
+
+    .tile-pop {
+      animation: tilePop 0.1s ease-in-out;
+    }
+
+    .tile-flip {
+      animation: tileFlip 0.5s ease-in-out forwards;
+    }
+
+    .board-solved-glow {
+      animation: solveGlow 2s ease-in-out infinite;
+    }
+
+    .shake {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    /* FAB & MINIMAP */
+    .fab-container {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 90;
+    }
+
+    .fab {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .fab:hover {
+      transform: scale(1.08);
+    }
+
+    .fab svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .minimap-btn {
+      background: var(--bg-panel);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .minimap-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .minimap-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .minimap-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 8px;
+      max-width: 500px;
+      margin: 0 auto;
+      overflow-y: auto;
+    }
+
+    .minimap-dot {
+      aspect-ratio: 1/1;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--text-faint);
+      cursor: pointer;
+    }
+
+    .minimap-dot.solved {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green);
+    }
+
+    .minimap-dot.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 10px rgba(86, 160, 255, 0.3);
+    }
+
+    @media (max-width:600px) {
+      body {
+        padding: 14px 8px;
+        gap: 14px;
+      }
+
+      .app-shell {
+        gap: 12px;
+      }
+
+      :root {
+        --topbar-h: 34px;
+        --keyboard-h: 170px;
+      }
+
+      h1 {
+        font-size: 1.45rem;
+        line-height: 1;
+      }
+
+      .key {
+        min-width: 30px;
+        height: 45px;
+        font-size: 0.8rem;
+      }
+
+      .key-wide {
+        min-width: 50px;
+      }
+
+      .board-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+
+      .tile {
+        font-size: 1.05rem;
+      }
+    }
   </style>
 </head>
 
@@ -485,366 +754,426 @@ h1{
     </div>
   </div>
 
-<script type="module">
-  const TZ = "Asia/Jerusalem";
+  <div class="fab-container">
+    <button id="minimap-toggle" class="fab minimap-btn" title="Board Mini-map">
+      <svg viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="3" y1="9" x2="21" y2="9"></line>
+        <line x1="3" y1="15" x2="21" y2="15"></line>
+        <line x1="9" y1="3" x2="9" y2="21"></line>
+        <line x1="15" y1="3" x2="15" y2="21"></line>
+      </svg>
+    </button>
+    <button id="next-unsolved-btn" class="fab" title="Jump to next unsolved">
+      <svg viewBox="0 0 24 24">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+  </div>
 
-  async function fetchDailyFromServer() {
-    const r = await fetch("/.netlify/functions/daily", { cache: "no-store" });
-    if (!r.ok) throw new Error("daily fetch failed");
-    const data = await r.json();
-    if (!data || typeof data.date !== "string" || !Array.isArray(data.words)) {
-      throw new Error("bad daily payload");
-    }
-    return data;
-  }
+  <div id="minimap-overlay" class="minimap-overlay hidden">
+    <div class="minimap-header">
+      <h2 style="letter-spacing:0.1em; font-weight:900;">BOARD SELECTOR</h2>
+      <button id="close-minimap-btn" class="modal-btn secondary" style="padding: 8px 16px;">Close</button>
+    </div>
+    <div id="minimap-grid" class="minimap-grid"></div>
+  </div>
 
-  // ===== CONFIG =====
-  const CONFIG = {
-    BOARD_COUNT: 100,
-    MAX_GUESSES: 105,
-    WORD_LENGTH: 5,
-    INITIAL_VISIBLE_ROWS: 1,
-    SHARE_URL: "https://HUNDREDLE.netlify.app",
-  };
+  <script type="module">
+    const TZ = "Asia/Jerusalem";
 
-  // ===== GLOBALS =====
-  let SOLUTIONS = [];
-  let BOARD_COUNT = 0;
-
-  const MAX_GUESSES = CONFIG.MAX_GUESSES;
-  const COLS = CONFIG.WORD_LENGTH;
-  const INITIAL_VISIBLE_ROWS = CONFIG.INITIAL_VISIBLE_ROWS;
-  const ROWS = MAX_GUESSES;
-
-  const container = document.getElementById("boards");
-  const keyboardEl = document.getElementById("keyboard");
-  const guessesLabelEl = document.getElementById("guesses-label");
-  const completedLabelEl = document.getElementById("completed-label");
-
-  const modalOverlay = document.getElementById("modal-overlay");
-  const modalTitleEl = document.getElementById("modal-title");
-  const modalTextEl = document.getElementById("modal-text");
-  const dailyNextEl = document.getElementById("daily-next");
-  const dailyCountdownEl = document.getElementById("daily-countdown");
-  const copyShareBtn = document.getElementById("copy-share-btn");
-  const closeModalBtn = document.getElementById("close-modal-btn");
-  const resetBtn = document.getElementById("reset-btn");
-  const confirmOverlay = document.getElementById("confirm-overlay");
-  const confirmYesBtn = document.getElementById("confirm-reset-yes");
-  const confirmCancelBtn = document.getElementById("confirm-reset-cancel");
-
-  const boardsScrollEl = document.querySelector(".boards-scroll");
-
-  const STORAGE_KEY = "hundredle_state_v4";
-
-  let currentShareText = "";
-
-  let DAILY_DATE = null;
-  let countdownInterval = null;
-  let countdownTargetUtcMs = 0;
-
-  let tiles;
-  let rows;
-  let boardStatusEls;
-  let boardElems;
-  let boardGrids;
-  let keyboardStates;
-  let knownGreens;
-  let solved;
-  let guessesHistory = [];
-
-  let visibleRows = INITIAL_VISIBLE_ROWS;
-  let guessesUsed = 0;
-  let currentGuess = "";
-  let solvedCount = 0;
-  let activeBoard = 0;
-  let currentHighlightRow = -1;
-  let gameStarted = false;
-  let gameEnded = false;
-  let startTime = 0;
-  let boardsScrollTop = 0;
-
-  // fix: keep solved boards from spawning empty rows after refresh
-  let solvedAtRow = [];
-
-  // ===== DICTIONARY (words.json) =====
-  let ALLOWED_WORDS_SET = null;
-  let SOLUTIONS_SET = new Set();
-
-  async function loadAllowedWords() {
-    if (ALLOWED_WORDS_SET) return ALLOWED_WORDS_SET;
-    const r = await fetch("/words.json", { cache: "force-cache" });
-    if (!r.ok) throw new Error("words.json fetch failed");
-    const arr = await r.json();
-    if (!Array.isArray(arr)) throw new Error("words.json is not an array");
-
-    ALLOWED_WORDS_SET = new Set(
-      arr
-        .map(w => (typeof w === "string" ? w.trim().toLowerCase() : ""))
-        .filter(Boolean)
-    );
-    return ALLOWED_WORDS_SET;
-  }
-
-  function isGuessValidLower(wordLower) {
-    if (!wordLower || wordLower.length !== COLS) return false;
-    if (SOLUTIONS_SET.has(wordLower)) return true; // always allow actual solutions
-    if (!ALLOWED_WORDS_SET) return true; // if dictionary failed to load, don't block the game
-    return ALLOWED_WORDS_SET.has(wordLower);
-  }
-
-  function paintCurrentRowInvalid(on) {
-    if (!tiles || !tiles.length) return;
-    if (guessesUsed >= MAX_GUESSES) return;
-
-    const row = guessesUsed;
-
-    for (let b = 0; b < BOARD_COUNT; b++) {
-      if (solved && solved[b]) continue; // solved boards don't receive input
-      const rowTiles = tiles[b]?.[row];
-      if (!rowTiles) continue;
-
-      for (let c = 0; c < COLS; c++) {
-        const tile = rowTiles[c];
-        if (!tile) continue;
-
-        if (on) tile.style.borderColor = "var(--danger)";
-        else tile.style.borderColor = "";
+    async function fetchDailyFromServer() {
+      const r = await fetch("/.netlify/functions/daily", { cache: "no-store" });
+      if (!r.ok) throw new Error("daily fetch failed");
+      const data = await r.json();
+      if (!data || typeof data.date !== "string" || !Array.isArray(data.words)) {
+        throw new Error("bad daily payload");
       }
+      return data;
     }
-  }
 
-  function updateLiveValidity() {
-    if (gameEnded) { paintCurrentRowInvalid(false); return; }
-    if (guessesUsed >= MAX_GUESSES) { paintCurrentRowInvalid(false); return; }
-    if (currentGuess.length !== COLS) { paintCurrentRowInvalid(false); return; }
-
-    const lower = currentGuess.toLowerCase();
-    const ok = isGuessValidLower(lower);
-    paintCurrentRowInvalid(!ok);
-  }
-
-  // ===== ISRAEL DATE + COUNTDOWN =====
-  function israelDateKey(date = new Date()) {
-    return new Intl.DateTimeFormat("en-CA", {
-      timeZone: TZ,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit"
-    }).format(date);
-  }
-
-  function tzOffsetMinutes(date, timeZone) {
-    const parts = new Intl.DateTimeFormat("en-US", {
-      timeZone,
-      timeZoneName: "shortOffset"
-    }).formatToParts(date);
-    const tzName = (parts.find(p => p.type === "timeZoneName") || {}).value || "GMT";
-    const m = tzName.match(/(?:GMT|UTC)([+-])(\d{1,2})(?::?(\d{2}))?/i);
-    if (!m) return 0;
-    const sign = m[1] === "-" ? -1 : 1;
-    const hh = parseInt(m[2], 10) || 0;
-    const mm = parseInt(m[3] || "0", 10) || 0;
-    return sign * (hh * 60 + mm);
-  }
-
-  function nextIsraelMidnightUtcMs(now = new Date()) {
-    const todayKey = israelDateKey(now);
-    const [y, mo, d] = todayKey.split("-").map(n => parseInt(n, 10));
-    const tomorrowUtcMid = new Date(Date.UTC(y, mo - 1, d) + 24 * 60 * 60 * 1000);
-    const ty = tomorrowUtcMid.getUTCFullYear();
-    const tmo = tomorrowUtcMid.getUTCMonth() + 1;
-    const td = tomorrowUtcMid.getUTCDate();
-
-    const localMidnightAsUtc = Date.UTC(ty, tmo - 1, td, 0, 0, 0);
-
-    let guess = localMidnightAsUtc - tzOffsetMinutes(now, TZ) * 60 * 1000;
-    for (let i = 0; i < 4; i++) {
-      const off = tzOffsetMinutes(new Date(guess), TZ);
-      const next = localMidnightAsUtc - off * 60 * 1000;
-      if (Math.abs(next - guess) < 1000) { guess = next; break; }
-      guess = next;
-    }
-    return guess;
-  }
-
-  function formatCountdown(ms) {
-    const total = Math.max(0, Math.floor(ms / 1000));
-    const hh = Math.floor(total / 3600);
-    const mm = Math.floor((total % 3600) / 60);
-    const ss = total % 60;
-    const pad = n => String(n).padStart(2, "0");
-    return pad(hh) + ":" + pad(mm) + ":" + pad(ss);
-  }
-
-  function stopCountdown() {
-    if (countdownInterval) {
-      clearInterval(countdownInterval);
-      countdownInterval = null;
-    }
-  }
-
-  function startCountdownToNextDay() {
-    if (!dailyNextEl || !dailyCountdownEl) return;
-
-    stopCountdown();
-    countdownTargetUtcMs = nextIsraelMidnightUtcMs(new Date());
-
-    const tick = () => {
-      const left = countdownTargetUtcMs - Date.now();
-      dailyCountdownEl.textContent = formatCountdown(left);
-      if (left <= 0) {
-        dailyCountdownEl.textContent = "00:00:00";
-        stopCountdown();
-      }
+    // ===== CONFIG =====
+    const CONFIG = {
+      BOARD_COUNT: 100,
+      MAX_GUESSES: 105,
+      WORD_LENGTH: 5,
+      INITIAL_VISIBLE_ROWS: 1,
+      SHARE_URL: "https://HUNDREDLE.netlify.app",
     };
 
-    tick();
-    countdownInterval = setInterval(tick, 1000);
-  }
+    // ===== GLOBALS =====
+    let SOLUTIONS = [];
+    let BOARD_COUNT = 0;
 
-  function showDailyNext() {
-    if (!dailyNextEl) return;
-    dailyNextEl.classList.remove("hidden");
-    startCountdownToNextDay();
-  }
+    const MAX_GUESSES = CONFIG.MAX_GUESSES;
+    const COLS = CONFIG.WORD_LENGTH;
+    const INITIAL_VISIBLE_ROWS = CONFIG.INITIAL_VISIBLE_ROWS;
+    const ROWS = MAX_GUESSES;
 
-  function hideDailyNext() {
-    if (!dailyNextEl) return;
-    dailyNextEl.classList.add("hidden");
-    stopCountdown();
-  }
+    const container = document.getElementById("boards");
+    const keyboardEl = document.getElementById("keyboard");
+    const guessesLabelEl = document.getElementById("guesses-label");
+    const completedLabelEl = document.getElementById("completed-label");
 
-  // ===== STORAGE =====
-  function saveState() {
-    try {
-      if (!SOLUTIONS || !SOLUTIONS.length) return;
-      if (boardsScrollEl) boardsScrollTop = boardsScrollEl.scrollTop || 0;
+    const modalOverlay = document.getElementById("modal-overlay");
+    const modalTitleEl = document.getElementById("modal-title");
+    const modalTextEl = document.getElementById("modal-text");
+    const dailyNextEl = document.getElementById("daily-next");
+    const dailyCountdownEl = document.getElementById("daily-countdown");
+    const copyShareBtn = document.getElementById("copy-share-btn");
+    const closeModalBtn = document.getElementById("close-modal-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const confirmOverlay = document.getElementById("confirm-overlay");
+    const confirmYesBtn = document.getElementById("confirm-reset-yes");
+    const confirmCancelBtn = document.getElementById("confirm-reset-cancel");
 
-      const state = {
-        version: 4,
-        dailyDate: DAILY_DATE,
-        solutions: SOLUTIONS,
-        boardCount: BOARD_COUNT,
+    const boardsScrollEl = document.querySelector(".boards-scroll");
 
-        guessesHistory,
-        guessesUsed,
-        currentGuess,
+    const STORAGE_KEY = "hundredle_state_v4";
 
-        activeBoard,
+    let currentShareText = "";
 
-        gameEnded,
-        gameStarted,
-        startTime,
+    let DAILY_DATE = null;
+    let countdownInterval = null;
+    let countdownTargetUtcMs = 0;
 
-        boardsScrollTop
-      };
+    let tiles;
+    let rows;
+    let boardStatusEls;
+    let boardElems;
+    let boardGrids;
+    let keyboardStates;
+    let knownGreens;
+    let solved;
+    let guessesHistory = [];
 
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (e) {}
-  }
+    let visibleRows = INITIAL_VISIBLE_ROWS;
+    let guessesUsed = 0;
+    let currentGuess = "";
+    let solvedCount = 0;
+    let activeBoard = 0;
+    let currentHighlightRow = -1;
+    let gameStarted = false;
+    let gameEnded = false;
+    let startTime = 0;
+    let boardsScrollTop = 0;
 
-  if (boardsScrollEl) {
-    let t = null;
-    boardsScrollEl.addEventListener("scroll", () => {
-      boardsScrollTop = boardsScrollEl.scrollTop || 0;
-      clearTimeout(t);
-      t = setTimeout(saveState, 150);
-    });
-  }
-  window.addEventListener("beforeunload", saveState);
+    // fix: keep solved boards from spawning empty rows after refresh
+    let solvedAtRow = [];
 
-  // ===== HELPERS =====
-  function updateUI() {
-    if (guessesLabelEl) {
-      guessesLabelEl.textContent = guessesUsed + "/" + MAX_GUESSES + " GUESSES";
-    }
-    if (completedLabelEl && BOARD_COUNT) {
-      completedLabelEl.textContent = solvedCount + "/" + BOARD_COUNT + " COMPLETED";
-    }
-  }
+    // ===== DICTIONARY (words.json) =====
+    let ALLOWED_WORDS_SET = null;
+    let SOLUTIONS_SET = new Set();
 
-  function createRow(boardIndex, rowIndex) {
-    if (rowIndex >= ROWS) return null;
-    if (rows[boardIndex][rowIndex]) return rows[boardIndex][rowIndex];
+    async function loadAllowedWords() {
+      if (ALLOWED_WORDS_SET) return ALLOWED_WORDS_SET;
+      const r = await fetch("/words.json", { cache: "force-cache" });
+      if (!r.ok) throw new Error("words.json fetch failed");
+      const arr = await r.json();
+      if (!Array.isArray(arr)) throw new Error("words.json is not an array");
 
-    const rowDiv = document.createElement("div");
-    rowDiv.className = "row";
-    rows[boardIndex][rowIndex] = rowDiv;
-    tiles[boardIndex][rowIndex] = [];
-
-    for (let c = 0; c < COLS; c++) {
-      const tile = document.createElement("div");
-      tile.className = "tile";
-      tiles[boardIndex][rowIndex][c] = tile;
-      rowDiv.appendChild(tile);
+      ALLOWED_WORDS_SET = new Set(
+        arr
+          .map(w => (typeof w === "string" ? w.trim().toLowerCase() : ""))
+          .filter(Boolean)
+      );
+      return ALLOWED_WORDS_SET;
     }
 
-    const grid = boardGrids[boardIndex];
-    if (grid) grid.appendChild(rowDiv);
+    function isGuessValidLower(wordLower) {
+      if (!wordLower || wordLower.length !== COLS) return false;
+      if (SOLUTIONS_SET.has(wordLower)) return true; // always allow actual solutions
+      if (!ALLOWED_WORDS_SET) return true; // if dictionary failed to load, don't block the game
+      return ALLOWED_WORDS_SET.has(wordLower);
+    }
 
-    return rowDiv;
-  }
+    function paintCurrentRowInvalid(on) {
+      if (!tiles || !tiles.length) return;
+      if (guessesUsed >= MAX_GUESSES) return;
 
-  function updateVisibleRows() {
-    const needed = Math.min(
-      MAX_GUESSES,
-      Math.max(INITIAL_VISIBLE_ROWS, guessesUsed + 1)
-    );
-    if (needed === visibleRows) return;
+      const row = guessesUsed;
 
-    for (let b = 0; b < BOARD_COUNT; b++) {
-      if (solved[b]) continue;
-      for (let r = visibleRows; r < needed; r++) {
-        let rowDiv = rows[b][r];
-        if (!rowDiv) rowDiv = createRow(b, r);
-        if (rowDiv) rowDiv.style.display = "grid";
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved && solved[b]) continue; // solved boards don't receive input
+        const rowTiles = tiles[b]?.[row];
+        if (!rowTiles) continue;
+
+        for (let c = 0; c < COLS; c++) {
+          const tile = rowTiles[c];
+          if (!tile) continue;
+
+          if (on) tile.style.borderColor = "var(--danger)";
+          else tile.style.borderColor = "";
+        }
       }
     }
-    visibleRows = needed;
-  }
 
-  function refreshCurrentRowHighlight() {
-    const newRow = Math.min(guessesUsed, MAX_GUESSES - 1);
+    function updateLiveValidity() {
+      if (gameEnded) { paintCurrentRowInvalid(false); return; }
+      if (guessesUsed >= MAX_GUESSES) { paintCurrentRowInvalid(false); return; }
+      if (currentGuess.length !== COLS) { paintCurrentRowInvalid(false); return; }
 
-    if (newRow === currentHighlightRow && guessesUsed < MAX_GUESSES) return;
+      const lower = currentGuess.toLowerCase();
+      const ok = isGuessValidLower(lower);
+      paintCurrentRowInvalid(!ok);
+    }
 
-    for (let b = 0; b < BOARD_COUNT; b++) {
-      if (currentHighlightRow >= 0) {
-        const prevTiles = tiles[b][currentHighlightRow];
-        if (prevTiles) {
-          for (let c = 0; c < COLS; c++) prevTiles[c].classList.remove("current");
+    // ===== ISRAEL DATE + COUNTDOWN =====
+    function israelDateKey(date = new Date()) {
+      return new Intl.DateTimeFormat("en-CA", {
+        timeZone: TZ,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(date);
+    }
+
+    function tzOffsetMinutes(date, timeZone) {
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone,
+        timeZoneName: "shortOffset"
+      }).formatToParts(date);
+      const tzName = (parts.find(p => p.type === "timeZoneName") || {}).value || "GMT";
+      const m = tzName.match(/(?:GMT|UTC)([+-])(\d{1,2})(?::?(\d{2}))?/i);
+      if (!m) return 0;
+      const sign = m[1] === "-" ? -1 : 1;
+      const hh = parseInt(m[2], 10) || 0;
+      const mm = parseInt(m[3] || "0", 10) || 0;
+      return sign * (hh * 60 + mm);
+    }
+
+    function nextIsraelMidnightUtcMs(now = new Date()) {
+      const todayKey = israelDateKey(now);
+      const [y, mo, d] = todayKey.split("-").map(n => parseInt(n, 10));
+      const tomorrowUtcMid = new Date(Date.UTC(y, mo - 1, d) + 24 * 60 * 60 * 1000);
+      const ty = tomorrowUtcMid.getUTCFullYear();
+      const tmo = tomorrowUtcMid.getUTCMonth() + 1;
+      const td = tomorrowUtcMid.getUTCDate();
+
+      const localMidnightAsUtc = Date.UTC(ty, tmo - 1, td, 0, 0, 0);
+
+      let guess = localMidnightAsUtc - tzOffsetMinutes(now, TZ) * 60 * 1000;
+      for (let i = 0; i < 4; i++) {
+        const off = tzOffsetMinutes(new Date(guess), TZ);
+        const next = localMidnightAsUtc - off * 60 * 1000;
+        if (Math.abs(next - guess) < 1000) { guess = next; break; }
+        guess = next;
+      }
+      return guess;
+    }
+
+    function formatCountdown(ms) {
+      const total = Math.max(0, Math.floor(ms / 1000));
+      const hh = Math.floor(total / 3600);
+      const mm = Math.floor((total % 3600) / 60);
+      const ss = total % 60;
+      const pad = n => String(n).padStart(2, "0");
+      return pad(hh) + ":" + pad(mm) + ":" + pad(ss);
+    }
+
+    function stopCountdown() {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
+    }
+
+    function startCountdownToNextDay() {
+      if (!dailyNextEl || !dailyCountdownEl) return;
+
+      stopCountdown();
+      countdownTargetUtcMs = nextIsraelMidnightUtcMs(new Date());
+
+      const tick = () => {
+        const left = countdownTargetUtcMs - Date.now();
+        dailyCountdownEl.textContent = formatCountdown(left);
+        if (left <= 0) {
+          dailyCountdownEl.textContent = "00:00:00";
+          stopCountdown();
+        }
+      };
+
+      tick();
+      countdownInterval = setInterval(tick, 1000);
+    }
+
+    function showDailyNext() {
+      if (!dailyNextEl) return;
+      dailyNextEl.classList.remove("hidden");
+      startCountdownToNextDay();
+    }
+
+    function hideDailyNext() {
+      if (!dailyNextEl) return;
+      dailyNextEl.classList.add("hidden");
+      stopCountdown();
+    }
+
+    // ===== STORAGE =====
+    function saveState() {
+      try {
+        if (!SOLUTIONS || !SOLUTIONS.length) return;
+        if (boardsScrollEl) boardsScrollTop = boardsScrollEl.scrollTop || 0;
+
+        const state = {
+          version: 4,
+          dailyDate: DAILY_DATE,
+          solutions: SOLUTIONS,
+          boardCount: BOARD_COUNT,
+
+          guessesHistory,
+          guessesUsed,
+          currentGuess,
+
+          activeBoard,
+
+          gameEnded,
+          gameStarted,
+          startTime,
+
+          boardsScrollTop
+        };
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) { }
+    }
+
+    if (boardsScrollEl) {
+      let t = null;
+      boardsScrollEl.addEventListener("scroll", () => {
+        boardsScrollTop = boardsScrollEl.scrollTop || 0;
+        clearTimeout(t);
+        t = setTimeout(saveState, 150);
+      });
+    }
+    window.addEventListener("beforeunload", saveState);
+
+    // ===== HELPERS =====
+    function updateUI() {
+      if (guessesLabelEl) {
+        guessesLabelEl.textContent = guessesUsed + "/" + MAX_GUESSES + " GUESSES";
+      }
+      if (completedLabelEl && BOARD_COUNT) {
+        completedLabelEl.textContent = solvedCount + "/" + BOARD_COUNT + " COMPLETED";
+      }
+    }
+
+    function createRow(boardIndex, rowIndex) {
+      if (rowIndex >= ROWS) return null;
+      if (rows[boardIndex][rowIndex]) return rows[boardIndex][rowIndex];
+
+      const rowDiv = document.createElement("div");
+      rowDiv.className = "row";
+      rows[boardIndex][rowIndex] = rowDiv;
+      tiles[boardIndex][rowIndex] = [];
+
+      for (let c = 0; c < COLS; c++) {
+        const tile = document.createElement("div");
+        tile.className = "tile";
+        tiles[boardIndex][rowIndex][c] = tile;
+        rowDiv.appendChild(tile);
+      }
+
+      const grid = boardGrids[boardIndex];
+      if (grid) grid.appendChild(rowDiv);
+
+      return rowDiv;
+    }
+
+    function updateVisibleRows() {
+      const needed = Math.min(
+        MAX_GUESSES,
+        Math.max(INITIAL_VISIBLE_ROWS, guessesUsed + 1)
+      );
+      if (needed === visibleRows) return;
+
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue;
+        for (let r = visibleRows; r < needed; r++) {
+          let rowDiv = rows[b][r];
+          if (!rowDiv) rowDiv = createRow(b, r);
+          if (rowDiv) rowDiv.style.display = "grid";
+        }
+      }
+      visibleRows = needed;
+    }
+
+    function refreshCurrentRowHighlight() {
+      const newRow = Math.min(guessesUsed, MAX_GUESSES - 1);
+
+      if (newRow === currentHighlightRow && guessesUsed < MAX_GUESSES) return;
+
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (currentHighlightRow >= 0) {
+          const prevTiles = tiles[b][currentHighlightRow];
+          if (prevTiles) {
+            for (let c = 0; c < COLS; c++) prevTiles[c].classList.remove("current");
+          }
+        }
+
+        if (guessesUsed >= MAX_GUESSES || solved[b]) continue;
+
+        const newTiles = tiles[b][newRow];
+        if (newTiles) {
+          for (let c = 0; c < COLS; c++) newTiles[c].classList.add("current");
         }
       }
 
-      if (guessesUsed >= MAX_GUESSES || solved[b]) continue;
+      currentHighlightRow = newRow;
 
-      const newTiles = tiles[b][newRow];
-      if (newTiles) {
-        for (let c = 0; c < COLS; c++) newTiles[c].classList.add("current");
+      // keep invalid red if currently invalid
+      updateLiveValidity();
+    }
+
+    function applyHintsToCurrentRow() {
+      if (guessesUsed >= MAX_GUESSES) return;
+      const row = guessesUsed;
+
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue;
+        const rowTiles = tiles[b][row];
+        if (!rowTiles) continue;
+
+        for (let c = 0; c < COLS; c++) {
+          const tile = rowTiles[c];
+          const hintChar = knownGreens[b][c];
+          if (tile.classList.contains("has-char")) continue;
+
+          if (hintChar) {
+            tile.dataset.hint = hintChar;
+            tile.classList.add("has-hint", "hint");
+          } else {
+            tile.classList.remove("has-hint", "hint");
+            tile.removeAttribute("data-hint");
+          }
+        }
       }
     }
 
-    currentHighlightRow = newRow;
+    function setLetter(row, col, letter) {
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue;
+        const rowTiles = tiles[b][row];
+        if (!rowTiles) continue;
+        const tile = rowTiles[col];
+        tile.textContent = letter;
+        tile.classList.add("filled", "has-char");
+        tile.classList.remove("has-hint", "hint");
+        tile.removeAttribute("data-hint");
+      }
+    }
 
-    // keep invalid red if currently invalid
-    updateLiveValidity();
-  }
+    function clearLetter(row, col) {
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue;
+        const rowTiles = tiles[b][row];
+        if (!rowTiles) continue;
 
-  function applyHintsToCurrentRow() {
-    if (guessesUsed >= MAX_GUESSES) return;
-    const row = guessesUsed;
+        const tile = rowTiles[col];
+        tile.textContent = "";
+        tile.classList.remove("filled", "correct", "present", "absent", "has-char");
 
-    for (let b = 0; b < BOARD_COUNT; b++) {
-      if (solved[b]) continue;
-      const rowTiles = tiles[b][row];
-      if (!rowTiles) continue;
-
-      for (let c = 0; c < COLS; c++) {
-        const tile = rowTiles[c];
-        const hintChar = knownGreens[b][c];
-        if (tile.classList.contains("has-char")) continue;
-
+        const hintChar = knownGreens[b][col];
         if (hintChar) {
           tile.dataset.hint = hintChar;
           tile.classList.add("has-hint", "hint");
@@ -854,469 +1183,312 @@ h1{
         }
       }
     }
-  }
 
-  function setLetter(row, col, letter) {
-    for (let b = 0; b < BOARD_COUNT; b++) {
-      if (solved[b]) continue;
-      const rowTiles = tiles[b][row];
-      if (!rowTiles) continue;
-      const tile = rowTiles[col];
-      tile.textContent = letter;
-      tile.classList.add("filled", "has-char");
-      tile.classList.remove("has-hint", "hint");
-      tile.removeAttribute("data-hint");
+    function scoreGuess(guess, solution) {
+      const res = new Array(COLS).fill("absent");
+      const counts = {};
+
+      for (let i = 0; i < COLS; i++) {
+        const ch = solution[i];
+        counts[ch] = (counts[ch] || 0) + 1;
+      }
+
+      for (let i = 0; i < COLS; i++) {
+        if (guess[i] === solution[i]) {
+          res[i] = "correct";
+          counts[guess[i]]--;
+        }
+      }
+
+      for (let i = 0; i < COLS; i++) {
+        if (res[i] === "correct") continue;
+        const ch = guess[i];
+        if (counts[ch] > 0) {
+          res[i] = "present";
+          counts[ch]--;
+        }
+      }
+
+      return res;
     }
-  }
 
-  function clearLetter(row, col) {
-    for (let b = 0; b < BOARD_COUNT; b++) {
-      if (solved[b]) continue;
-      const rowTiles = tiles[b][row];
-      if (!rowTiles) continue;
+    function statusRank(status) {
+      if (status === "correct") return 3;
+      if (status === "present") return 2;
+      if (status === "absent") return 1;
+      return 0;
+    }
 
-      const tile = rowTiles[col];
-      tile.textContent = "";
-      tile.classList.remove("filled", "correct", "present", "absent", "has-char");
+    function updateBoardKeyboardState(boardIndex, guess, marks) {
+      const state = keyboardStates[boardIndex];
+      for (let i = 0; i < COLS; i++) {
+        const letter = guess[i];
+        const mark = marks[i];
+        const prev = state[letter];
+        if (statusRank(mark) > statusRank(prev)) state[letter] = mark;
+      }
+    }
 
-      const hintChar = knownGreens[b][col];
-      if (hintChar) {
-        tile.dataset.hint = hintChar;
-        tile.classList.add("has-hint", "hint");
+    function showModal(title, text, showShare) {
+      hideDailyNext();
+      if (modalTitleEl) modalTitleEl.textContent = title || "HUNDREDLE";
+      if (modalTextEl) modalTextEl.textContent = text || "";
+      if (copyShareBtn) copyShareBtn.style.display = showShare ? "inline-flex" : "none";
+      if (modalOverlay) modalOverlay.classList.remove("hidden");
+    }
+
+    function endGame(didWin) {
+      if (gameEnded) return;
+      gameEnded = true;
+
+      let minutes = 0;
+      if (gameStarted) {
+        const ms = Date.now() - startTime;
+        minutes = Math.max(0, Math.round(ms / 6000) / 10);
+      }
+
+      const plural = guessesUsed === 1 ? "guess" : "guesses";
+
+      if (didWin) {
+        showModal(
+          "YOU WON!",
+          "Time: " + minutes + " minutes • " + guessesUsed + "/" + MAX_GUESSES + " " + plural,
+          true
+        );
+
+        currentShareText =
+          "I guessed " + BOARD_COUNT + "/" + BOARD_COUNT + " wordles in " + minutes + " minutes\n" +
+          "I challenge you to do better!\n\n" +
+          CONFIG.SHARE_URL;
       } else {
-        tile.classList.remove("has-hint", "hint");
-        tile.removeAttribute("data-hint");
+        showModal(
+          "YOU LOSE",
+          "You used all " + MAX_GUESSES + " guesses before solving all boards.",
+          false
+        );
+        currentShareText = "";
       }
-    }
-  }
 
-  function scoreGuess(guess, solution) {
-    const res = new Array(COLS).fill("absent");
-    const counts = {};
-
-    for (let i = 0; i < COLS; i++) {
-      const ch = solution[i];
-      counts[ch] = (counts[ch] || 0) + 1;
+      showDailyNext();
+      saveState();
     }
 
-    for (let i = 0; i < COLS; i++) {
-      if (guess[i] === solution[i]) {
-        res[i] = "correct";
-        counts[guess[i]]--;
-      }
+    if (copyShareBtn) {
+      copyShareBtn.addEventListener("click", async () => {
+        if (!currentShareText) return;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: "Hundredle", text: currentShareText });
+          } catch (e) { }
+        } else if (navigator.clipboard && navigator.clipboard.writeText) {
+          try {
+            await navigator.clipboard.writeText(currentShareText);
+          } catch (e) { }
+        }
+      });
     }
 
-    for (let i = 0; i < COLS; i++) {
-      if (res[i] === "correct") continue;
-      const ch = guess[i];
-      if (counts[ch] > 0) {
-        res[i] = "present";
-        counts[ch]--;
-      }
+    if (closeModalBtn) {
+      closeModalBtn.addEventListener("click", () => {
+        if (modalOverlay) modalOverlay.classList.add("hidden");
+        hideDailyNext();
+      });
     }
 
-    return res;
-  }
-
-  function statusRank(status) {
-    if (status === "correct") return 3;
-    if (status === "present") return 2;
-    if (status === "absent") return 1;
-    return 0;
-  }
-
-  function updateBoardKeyboardState(boardIndex, guess, marks) {
-    const state = keyboardStates[boardIndex];
-    for (let i = 0; i < COLS; i++) {
-      const letter = guess[i];
-      const mark = marks[i];
-      const prev = state[letter];
-      if (statusRank(mark) > statusRank(prev)) state[letter] = mark;
-    }
-  }
-
-  function showModal(title, text, showShare) {
-    hideDailyNext();
-    if (modalTitleEl) modalTitleEl.textContent = title || "HUNDREDLE";
-    if (modalTextEl) modalTextEl.textContent = text || "";
-    if (copyShareBtn) copyShareBtn.style.display = showShare ? "inline-flex" : "none";
-    if (modalOverlay) modalOverlay.classList.remove("hidden");
-  }
-
-  function endGame(didWin) {
-    if (gameEnded) return;
-    gameEnded = true;
-
-    let minutes = 0;
-    if (gameStarted) {
-      const ms = Date.now() - startTime;
-      minutes = Math.max(0, Math.round(ms / 6000) / 10);
+    function openResetConfirm() {
+      if (!SOLUTIONS.length) return;
+      if (confirmOverlay) confirmOverlay.classList.remove("hidden");
     }
 
-    const plural = guessesUsed === 1 ? "guess" : "guesses";
-
-    if (didWin) {
-      showModal(
-        "YOU WON!",
-        "Time: " + minutes + " minutes • " + guessesUsed + "/" + MAX_GUESSES + " " + plural,
-        true
-      );
-
-      currentShareText =
-        "I guessed " + BOARD_COUNT + "/" + BOARD_COUNT + " wordles in " + minutes + " minutes\n" +
-        "I challenge you to do better!\n\n" +
-        CONFIG.SHARE_URL;
-    } else {
-      showModal(
-        "YOU LOSE",
-        "You used all " + MAX_GUESSES + " guesses before solving all boards.",
-        false
-      );
-      currentShareText = "";
+    function closeResetConfirm() {
+      if (confirmOverlay) confirmOverlay.classList.add("hidden");
     }
 
-    showDailyNext();
-    saveState();
-  }
-
-  if (copyShareBtn) {
-    copyShareBtn.addEventListener("click", async () => {
-      if (!currentShareText) return;
-
-      if (navigator.share) {
-        try {
-          await navigator.share({ title: "Hundredle", text: currentShareText });
-        } catch (e) {}
-      } else if (navigator.clipboard && navigator.clipboard.writeText) {
-        try {
-          await navigator.clipboard.writeText(currentShareText);
-        } catch (e) {}
-      }
-    });
-  }
-
-  if (closeModalBtn) {
-    closeModalBtn.addEventListener("click", () => {
+    async function resetGame() {
+      closeResetConfirm();
       if (modalOverlay) modalOverlay.classList.add("hidden");
       hideDailyNext();
+
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) { }
+
+      // wipe runtime state
+      SOLUTIONS = [];
+      BOARD_COUNT = 0;
+      guessesHistory = [];
+      guessesUsed = 0;
+      currentGuess = "";
+      solvedCount = 0;
+      activeBoard = 0;
+      currentHighlightRow = -1;
+      gameStarted = false;
+      gameEnded = false;
+      startTime = 0;
+      boardsScrollTop = 0;
+
+      solvedAtRow = [];
+
+      // reset dictionary caches
+      ALLOWED_WORDS_SET = null;
+      SOLUTIONS_SET = new Set();
+
+      // fast UI clear
+      if (container) container.innerHTML = "";
+      if (keyboardEl) keyboardEl.innerHTML = "";
+      updateUI();
+
+      await initGame();
+    }
+
+    if (resetBtn) resetBtn.addEventListener("click", () => openResetConfirm());
+    if (confirmCancelBtn) confirmCancelBtn.addEventListener("click", () => closeResetConfirm());
+    if (confirmYesBtn) confirmYesBtn.addEventListener("click", () => resetGame());
+
+    // --- NEW UI LISTENERS ---
+    const minimapToggle = document.getElementById("minimap-toggle");
+    const minimapOverlay = document.getElementById("minimap-overlay");
+    const closeMinimapBtn = document.getElementById("close-minimap-btn");
+    const minimapGrid = document.getElementById("minimap-grid");
+    const nextUnsolvedBtn = document.getElementById("next-unsolved-btn");
+
+    function renderMiniMap() {
+      minimapGrid.innerHTML = "";
+      for (let i = 0; i < BOARD_COUNT; i++) {
+        const dot = document.createElement("div");
+        dot.className = "minimap-dot" + (solved[i] ? " solved" : "") + (i === activeBoard ? " active" : "");
+        dot.textContent = i + 1;
+        dot.addEventListener("click", () => {
+          setActiveBoard(i);
+          const boardEl = boardElems[i];
+          if (boardEl) boardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          minimapOverlay.classList.add("hidden");
+        });
+        minimapGrid.appendChild(dot);
+      }
+    }
+
+    function updateMiniMapStatus() {
+      if (minimapOverlay.classList.contains("hidden")) return;
+      renderMiniMap();
+    }
+
+    minimapToggle.addEventListener("click", () => {
+      renderMiniMap();
+      minimapOverlay.classList.remove("hidden");
     });
-  }
 
-  function openResetConfirm() {
-    if (!SOLUTIONS.length) return;
-    if (confirmOverlay) confirmOverlay.classList.remove("hidden");
-  }
-
-  function closeResetConfirm() {
-    if (confirmOverlay) confirmOverlay.classList.add("hidden");
-  }
-
-  async function resetGame() {
-    closeResetConfirm();
-    if (modalOverlay) modalOverlay.classList.add("hidden");
-    hideDailyNext();
-
-    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
-
-    // wipe runtime state
-    SOLUTIONS = [];
-    BOARD_COUNT = 0;
-    guessesHistory = [];
-    guessesUsed = 0;
-    currentGuess = "";
-    solvedCount = 0;
-    activeBoard = 0;
-    currentHighlightRow = -1;
-    gameStarted = false;
-    gameEnded = false;
-    startTime = 0;
-    boardsScrollTop = 0;
-
-    solvedAtRow = [];
-
-    // reset dictionary caches
-    ALLOWED_WORDS_SET = null;
-    SOLUTIONS_SET = new Set();
-
-    // fast UI clear
-    if (container) container.innerHTML = "";
-    if (keyboardEl) keyboardEl.innerHTML = "";
-    updateUI();
-
-    await initGame();
-  }
-
-  if (resetBtn) resetBtn.addEventListener("click", () => openResetConfirm());
-  if (confirmCancelBtn) confirmCancelBtn.addEventListener("click", () => closeResetConfirm());
-  if (confirmYesBtn) confirmYesBtn.addEventListener("click", () => resetGame());
-
-  function handleLetter(key) {
-    if (gameEnded) return;
-    if (!SOLUTIONS.length) return;
-    if (guessesUsed >= MAX_GUESSES) return;
-    if (currentGuess.length >= COLS) return;
-
-    const letter = key.toUpperCase();
-    if (!/^[A-Z]$/.test(letter)) return;
-
-    const row = guessesUsed;
-    const col = currentGuess.length;
-    currentGuess += letter;
-
-    setLetter(row, col, letter);
-    updateLiveValidity();
-    saveState();
-  }
-
-  function handleBackspace() {
-    if (gameEnded) return;
-    if (!SOLUTIONS.length) return;
-    if (guessesUsed >= MAX_GUESSES) return;
-    if (currentGuess.length === 0) return;
-
-    const row = guessesUsed;
-    const col = currentGuess.length - 1;
-    currentGuess = currentGuess.slice(0, -1);
-
-    clearLetter(row, col);
-    updateLiveValidity();
-    saveState();
-  }
-
-  function handleEnter() {
-    if (gameEnded) return;
-    if (!SOLUTIONS.length) return;
-    if (guessesUsed >= MAX_GUESSES) return;
-    if (currentGuess.length !== COLS) return;
-
-    // block invalid words, keep current row red across all boards
-    const lower = currentGuess.toLowerCase();
-    if (!isGuessValidLower(lower)) {
-      paintCurrentRowInvalid(true);
-      return;
-    }
-
-    // valid -> clear any invalid red before scoring
-    paintCurrentRowInvalid(false);
-
-    if (!gameStarted) {
-      gameStarted = true;
-      startTime = Date.now();
-    }
-
-    const guess = currentGuess.toUpperCase();
-    const row = guessesUsed;
-
-    guessesHistory[guessesUsed] = guess;
-
-    for (let b = 0; b < BOARD_COUNT; b++) {
-      if (solved[b]) continue;
-
-      const solution = SOLUTIONS[b];
-      const marks = scoreGuess(guess, solution);
-      const rowTiles = tiles[b][row];
-      if (!rowTiles) continue;
-
-      for (let c = 0; c < COLS; c++) {
-        const tile = rowTiles[c];
-        tile.classList.remove("correct", "present", "absent", "hint", "has-hint");
-        tile.classList.add("filled", "has-char", marks[c]);
-
-        if (marks[c] === "correct") knownGreens[b][c] = guess[c];
-      }
-
-      updateBoardKeyboardState(b, guess, marks);
-
-      if (!solved[b] && guess === solution) {
-        solved[b] = true;
-        solvedCount++;
-
-        const statusEl = boardStatusEls[b];
-        if (statusEl) statusEl.textContent = "SOLVED";
-
-        const boardEl = boardElems[b];
-        if (boardEl) boardEl.classList.add("board-solved");
-      }
-    }
-
-    guessesUsed++;
-    currentGuess = "";
-
-    updateVisibleRows();
-    updateUI();
-    applyHintsToCurrentRow();
-    refreshCurrentRowHighlight();
-    renderKeyboard();
-
-    if (!gameEnded) {
-      if (solvedCount === BOARD_COUNT) endGame(true);
-      else if (guessesUsed >= MAX_GUESSES) endGame(false);
-    }
-
-    updateLiveValidity();
-    saveState();
-  }
-
-  function handleKeydown(e) {
-    if (e.ctrlKey || e.metaKey || e.altKey) return;
-    const key = e.key;
-
-    if (key === "Backspace") { e.preventDefault(); handleBackspace(); return; }
-    if (key === "Enter") { e.preventDefault(); handleEnter(); return; }
-
-    if (/^[a-zA-Z]$/.test(key)) { e.preventDefault(); handleLetter(key); }
-  }
-
-  const keyboardLayout = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
-
-  function buildKeyboard() {
-    keyboardLayout.forEach((rowStr, rowIndex) => {
-      const rowDiv = document.createElement("div");
-      rowDiv.className = "key-row";
-
-      if (rowIndex === 2) {
-        const enterKey = document.createElement("button");
-        enterKey.type = "button";
-        enterKey.className = "key key-wide";
-        enterKey.dataset.key = "ENTER";
-        enterKey.innerHTML = "<span class='key-label-small'>Enter</span>";
-        enterKey.addEventListener("click", () => handleEnter());
-        rowDiv.appendChild(enterKey);
-      }
-
-      for (const ch of rowStr) {
-        const keyBtn = document.createElement("button");
-        keyBtn.type = "button";
-        keyBtn.className = "key";
-        keyBtn.dataset.key = ch;
-        keyBtn.textContent = ch;
-        keyBtn.addEventListener("click", () => handleLetter(ch));
-        rowDiv.appendChild(keyBtn);
-      }
-
-      if (rowIndex === 2) {
-        const backKey = document.createElement("button");
-        backKey.type = "button";
-        backKey.className = "key key-wide";
-        backKey.dataset.key = "BACKSPACE";
-        backKey.innerHTML = "<span class='key-label-small'>Backspace</span>";
-        backKey.addEventListener("click", () => handleBackspace());
-        rowDiv.appendChild(backKey);
-      }
-
-      keyboardEl.appendChild(rowDiv);
+    closeMinimapBtn.addEventListener("click", () => {
+      minimapOverlay.classList.add("hidden");
     });
-  }
 
-  function renderKeyboard() {
-    const keys = keyboardEl.querySelectorAll(".key");
-    if (!keyboardStates || !keyboardStates.length) return;
-    const state = keyboardStates[activeBoard] || {};
-
-    keys.forEach(keyEl => {
-      const val = keyEl.dataset.key;
-      keyEl.classList.remove("key-correct", "key-present", "key-absent");
-
-      if (!val || val === "ENTER" || val === "BACKSPACE") return;
-
-      const letter = val.toUpperCase();
-      const status = state[letter];
-
-      if (status === "correct") keyEl.classList.add("key-correct");
-      else if (status === "present") keyEl.classList.add("key-present");
-      else if (status === "absent") keyEl.classList.add("key-absent");
-    });
-  }
-
-  function setActiveBoard(index) {
-    if (!boardElems || !boardElems.length) return;
-    if (index < 0 || index >= BOARD_COUNT) return;
-
-    if (boardElems[activeBoard]) boardElems[activeBoard].classList.remove("board-active");
-    activeBoard = index;
-    if (boardElems[activeBoard]) boardElems[activeBoard].classList.add("board-active");
-
-    renderKeyboard();
-    updateLiveValidity();
-    saveState();
-  }
-
-  function resetRuntimeStateFromScratch() {
-    tiles = new Array(BOARD_COUNT);
-    rows = new Array(BOARD_COUNT);
-    boardStatusEls = new Array(BOARD_COUNT);
-    boardElems = new Array(BOARD_COUNT);
-    boardGrids = new Array(BOARD_COUNT);
-    keyboardStates = new Array(BOARD_COUNT);
-    knownGreens = new Array(BOARD_COUNT);
-    solved = new Array(BOARD_COUNT).fill(false);
-
-    solvedCount = 0;
-    visibleRows = INITIAL_VISIBLE_ROWS;
-    currentHighlightRow = -1;
-    currentShareText = "";
-    container.innerHTML = "";
-
-    for (let b = 0; b < BOARD_COUNT; b++) {
-      keyboardStates[b] = {};
-      knownGreens[b] = new Array(COLS).fill(null);
-      tiles[b] = [];
-      rows[b] = [];
-
-      const board = document.createElement("div");
-      board.className = "board";
-      boardElems[b] = board;
-
-      const header = document.createElement("div");
-      header.className = "board-header";
-
-      const left = document.createElement("div");
-      left.className = "board-left";
-
-      const indexPill = document.createElement("span");
-      indexPill.className = "board-index-pill";
-      indexPill.textContent = "WORD " + (b + 1);
-
-      const status = document.createElement("span");
-      status.className = "board-status";
-      status.textContent = "";
-      boardStatusEls[b] = status;
-
-      left.appendChild(indexPill);
-      header.appendChild(left);
-      header.appendChild(status);
-      board.appendChild(header);
-
-      const grid = document.createElement("div");
-      grid.className = "grid";
-      boardGrids[b] = grid;
-
-      // ✅ fix: if this board was already solved at some row, don't create extra empty rows beyond it
-      const solvedRow = typeof solvedAtRow?.[b] === "number" ? solvedAtRow[b] : -1;
-      const initialRowsToCreate =
-        solvedRow >= 0
-          ? Math.min(solvedRow + 1, ROWS)
-          : Math.min(Math.max(INITIAL_VISIBLE_ROWS, guessesUsed + 1), ROWS);
-
-      for (let r = 0; r < initialRowsToCreate && r < ROWS; r++) {
-        const rowDiv = createRow(b, r);
-        if (rowDiv) rowDiv.style.display = "grid";
+    nextUnsolvedBtn.addEventListener("click", () => {
+      let next = -1;
+      for (let i = 1; i <= BOARD_COUNT; i++) {
+        const idx = (activeBoard + i) % BOARD_COUNT;
+        if (!solved[idx]) { next = idx; break; }
       }
+      if (next !== -1) {
+        setActiveBoard(next);
+        const boardEl = boardElems[next];
+        if (boardEl) boardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else {
+        nextUnsolvedBtn.classList.add("shake");
+        setTimeout(() => nextUnsolvedBtn.classList.remove("shake"), 400);
+      }
+    });
 
-      board.appendChild(grid);
-      container.appendChild(board);
+    const visibleBoards = new Set();
+    const boardsToSync = new Set();
+    let intersectionObserver = null;
 
-      board.addEventListener("click", () => setActiveBoard(b));
+    function initIntersectionObserver() {
+      intersectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const idx = parseInt(entry.target.dataset.index, 10);
+          if (entry.isIntersecting) {
+            visibleBoards.add(idx);
+          } else {
+            visibleBoards.delete(idx);
+          }
+        });
+      }, {
+        root: boardsScrollEl,
+        rootMargin: "200px",
+        threshold: 0
+      });
     }
 
-    keyboardEl.innerHTML = "";
-    buildKeyboard();
-  }
+    function handleLetter(key) {
+      if (gameEnded) return;
+      if (!SOLUTIONS.length) return;
+      if (guessesUsed >= MAX_GUESSES) return;
+      if (currentGuess.length >= COLS) return;
 
-  function replayGuesses() {
-    for (let row = 0; row < guessesUsed; row++) {
-      const guess = guessesHistory[row];
-      if (!guess || guess.length !== COLS) continue;
+      const letter = key.toUpperCase();
+      if (!/^[A-Z]$/.test(letter)) return;
+
+      const row = guessesUsed;
+      const col = currentGuess.length;
+      currentGuess += letter;
+
+      setLetter(row, col, letter);
+
+      // TYPING ANIMATION
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue;
+        if (typeof visibleBoards !== 'undefined' && !visibleBoards.has(b) && b !== activeBoard) continue;
+        const tile = tiles[b][row][col];
+        if (tile) {
+          tile.classList.remove("tile-pop");
+          void tile.offsetWidth;
+          tile.classList.add("tile-pop");
+        }
+      }
+
+      updateLiveValidity();
+      saveState();
+    }
+
+    function handleBackspace() {
+      if (gameEnded) return;
+      if (!SOLUTIONS.length) return;
+      if (guessesUsed >= MAX_GUESSES) return;
+      if (currentGuess.length === 0) return;
+
+      const row = guessesUsed;
+      const col = currentGuess.length - 1;
+      currentGuess = currentGuess.slice(0, -1);
+
+      clearLetter(row, col);
+      updateLiveValidity();
+      saveState();
+    }
+
+    function handleEnter() {
+      if (gameEnded) return;
+      if (!SOLUTIONS.length) return;
+      if (guessesUsed >= MAX_GUESSES) return;
+      if (currentGuess.length !== COLS) return;
+
+      // block invalid words, keep current row red across all boards
+      const lower = currentGuess.toLowerCase();
+      if (!isGuessValidLower(lower)) {
+        paintCurrentRowInvalid(true);
+        return;
+      }
+
+      // valid -> clear any invalid red before scoring
+      paintCurrentRowInvalid(false);
+
+      if (!gameStarted) {
+        gameStarted = true;
+        startTime = Date.now();
+      }
+
+      const guess = currentGuess.toUpperCase();
+      const row = guessesUsed;
+
+      guessesHistory[guessesUsed] = guess;
 
       for (let b = 0; b < BOARD_COUNT; b++) {
         if (solved[b]) continue;
@@ -1326,186 +1498,417 @@ h1{
         const rowTiles = tiles[b][row];
         if (!rowTiles) continue;
 
+        // SEQUENTIAL FLIP ANIMATION
         for (let c = 0; c < COLS; c++) {
           const tile = rowTiles[c];
-          tile.textContent = guess[c];
-          tile.classList.add("filled", "has-char");
-          tile.classList.remove("correct", "present", "absent", "hint", "has-hint");
-          tile.classList.add(marks[c]);
+          setTimeout(() => {
+            tile.classList.add("tile-flip");
+            setTimeout(() => {
+              tile.classList.remove("correct", "present", "absent", "hint", "has-hint");
+              tile.classList.add("filled", "has-char", marks[c]);
+              if (marks[c] === "correct") knownGreens[b][c] = guess[c];
 
-          if (marks[c] === "correct") knownGreens[b][c] = guess[c];
+              if (c === COLS - 1) {
+                if (!solved[b] && guess === solution) {
+                  solved[b] = true;
+                  solvedCount++;
+                  const statusEl = boardStatusEls[b];
+                  if (statusEl) statusEl.textContent = "SOLVED";
+                  const boardEl = boardElems[b];
+                  if (boardEl) {
+                    boardEl.classList.add("board-solved");
+                    boardEl.classList.add("board-solved-glow");
+                    if (b === activeBoard) updateMiniMapStatus();
+                  }
+                }
+              }
+            }, 250);
+          }, c * 150);
         }
 
         updateBoardKeyboardState(b, guess, marks);
+      }
 
-        if (!solved[b] && guess === solution) {
-          solved[b] = true;
-          solvedCount++;
+      guessesUsed++;
+      currentGuess = "";
 
-          const statusEl = boardStatusEls[b];
-          if (statusEl) statusEl.textContent = "SOLVED";
+      // Delay non-critical UI updates slightly to preserve animation smoothness
+      setTimeout(() => {
+        updateVisibleRows();
+        updateUI();
+        applyHintsToCurrentRow();
+        refreshCurrentRowHighlight();
+        renderKeyboard();
 
-          const boardEl = boardElems[b];
-          if (boardEl) boardEl.classList.add("board-solved");
+        if (!gameEnded) {
+          if (solvedCount === BOARD_COUNT) {
+            setTimeout(() => endGame(true), 1200);
+          } else if (guessesUsed >= MAX_GUESSES) {
+            endGame(false);
+          }
+        }
+      }, COLS * 150 + 250);
+
+      updateLiveValidity();
+      saveState();
+    }
+
+    function handleKeydown(e) {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const key = e.key;
+
+      if (key === "Backspace") { e.preventDefault(); handleBackspace(); return; }
+      if (key === "Enter") { e.preventDefault(); handleEnter(); return; }
+
+      if (/^[a-zA-Z]$/.test(key)) { e.preventDefault(); handleLetter(key); }
+    }
+
+    const keyboardLayout = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
+
+    function buildKeyboard() {
+      keyboardLayout.forEach((rowStr, rowIndex) => {
+        const rowDiv = document.createElement("div");
+        rowDiv.className = "key-row";
+
+        if (rowIndex === 2) {
+          const enterKey = document.createElement("button");
+          enterKey.type = "button";
+          enterKey.className = "key key-wide";
+          enterKey.dataset.key = "ENTER";
+          enterKey.innerHTML = "<span class='key-label-small'>Enter</span>";
+          enterKey.addEventListener("click", () => handleEnter());
+          rowDiv.appendChild(enterKey);
+        }
+
+        for (const ch of rowStr) {
+          const keyBtn = document.createElement("button");
+          keyBtn.type = "button";
+          keyBtn.className = "key";
+          keyBtn.dataset.key = ch;
+          keyBtn.textContent = ch;
+          keyBtn.addEventListener("click", () => handleLetter(ch));
+          rowDiv.appendChild(keyBtn);
+        }
+
+        if (rowIndex === 2) {
+          const backKey = document.createElement("button");
+          backKey.type = "button";
+          backKey.className = "key key-wide";
+          backKey.dataset.key = "BACKSPACE";
+          backKey.innerHTML = "<span class='key-label-small'>Backspace</span>";
+          backKey.addEventListener("click", () => handleBackspace());
+          rowDiv.appendChild(backKey);
+        }
+
+        keyboardEl.appendChild(rowDiv);
+      });
+    }
+
+    function renderKeyboard() {
+      const keys = keyboardEl.querySelectorAll(".key");
+      if (!keyboardStates || !keyboardStates.length) return;
+      const state = keyboardStates[activeBoard] || {};
+
+      keys.forEach(keyEl => {
+        const val = keyEl.dataset.key;
+        keyEl.classList.remove("key-correct", "key-present", "key-absent");
+
+        if (!val || val === "ENTER" || val === "BACKSPACE") return;
+
+        const letter = val.toUpperCase();
+        const status = state[letter];
+
+        if (status === "correct") keyEl.classList.add("key-correct");
+        else if (status === "present") keyEl.classList.add("key-present");
+        else if (status === "absent") keyEl.classList.add("key-absent");
+      });
+    }
+
+    function setActiveBoard(index) {
+      if (!boardElems || !boardElems.length) return;
+      if (index < 0 || index >= BOARD_COUNT) return;
+
+      if (boardElems[activeBoard]) boardElems[activeBoard].classList.remove("board-active");
+      activeBoard = index;
+      if (boardElems[activeBoard]) boardElems[activeBoard].classList.add("board-active");
+
+      renderKeyboard();
+      updateLiveValidity();
+      saveState();
+    }
+
+    function resetRuntimeStateFromScratch() {
+      tiles = new Array(BOARD_COUNT);
+      rows = new Array(BOARD_COUNT);
+      boardStatusEls = new Array(BOARD_COUNT);
+      boardElems = new Array(BOARD_COUNT);
+      boardGrids = new Array(BOARD_COUNT);
+      keyboardStates = new Array(BOARD_COUNT);
+      knownGreens = new Array(BOARD_COUNT);
+      solved = new Array(BOARD_COUNT).fill(false);
+
+      solvedCount = 0;
+      visibleRows = INITIAL_VISIBLE_ROWS;
+      currentHighlightRow = -1;
+      currentShareText = "";
+      container.innerHTML = "";
+
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        keyboardStates[b] = {};
+        knownGreens[b] = new Array(COLS).fill(null);
+        tiles[b] = [];
+        rows[b] = [];
+
+        const board = document.createElement("div");
+        board.className = "board";
+        boardElems[b] = board;
+
+        const header = document.createElement("div");
+        header.className = "board-header";
+
+        const left = document.createElement("div");
+        left.className = "board-left";
+
+        const indexPill = document.createElement("span");
+        indexPill.className = "board-index-pill";
+        indexPill.textContent = "WORD " + (b + 1);
+
+        const status = document.createElement("span");
+        status.className = "board-status";
+        status.textContent = "";
+        boardStatusEls[b] = status;
+
+        left.appendChild(indexPill);
+        header.appendChild(left);
+        header.appendChild(status);
+        board.appendChild(header);
+
+        const grid = document.createElement("div");
+        grid.className = "grid";
+        boardGrids[b] = grid;
+
+        // ✅ fix: if this board was already solved at some row, don't create extra empty rows beyond it
+        const solvedRow = typeof solvedAtRow?.[b] === "number" ? solvedAtRow[b] : -1;
+        const initialRowsToCreate =
+          solvedRow >= 0
+            ? Math.min(solvedRow + 1, ROWS)
+            : Math.min(Math.max(INITIAL_VISIBLE_ROWS, guessesUsed + 1), ROWS);
+
+        for (let r = 0; r < initialRowsToCreate && r < ROWS; r++) {
+          const rowDiv = createRow(b, r);
+          if (rowDiv) rowDiv.style.display = "grid";
+        }
+
+        board.appendChild(grid);
+        board.dataset.index = b;
+        container.appendChild(board);
+
+        board.addEventListener("click", () => setActiveBoard(b));
+        if (intersectionObserver) intersectionObserver.observe(board);
+      }
+
+      keyboardEl.innerHTML = "";
+      buildKeyboard();
+    }
+
+    function replayGuesses() {
+      for (let row = 0; row < guessesUsed; row++) {
+        const guess = guessesHistory[row];
+        if (!guess || guess.length !== COLS) continue;
+
+        for (let b = 0; b < BOARD_COUNT; b++) {
+          if (solved[b]) continue;
+
+          const solution = SOLUTIONS[b];
+          const marks = scoreGuess(guess, solution);
+          const rowTiles = tiles[b][row];
+          if (!rowTiles) continue;
+
+          for (let c = 0; c < COLS; c++) {
+            const tile = rowTiles[c];
+            tile.textContent = guess[c];
+            tile.classList.add("filled", "has-char");
+            tile.classList.remove("correct", "present", "absent", "hint", "has-hint");
+            tile.classList.add(marks[c]);
+
+            if (marks[c] === "correct") knownGreens[b][c] = guess[c];
+          }
+
+          updateBoardKeyboardState(b, guess, marks);
+
+          if (!solved[b] && guess === solution) {
+            solved[b] = true;
+            solvedCount++;
+
+            const statusEl = boardStatusEls[b];
+            if (statusEl) statusEl.textContent = "SOLVED";
+
+            const boardEl = boardElems[b];
+            if (boardEl) {
+              boardEl.classList.add("board-solved");
+              boardEl.classList.add("board-solved-glow");
+            }
+          }
         }
       }
     }
-  }
 
-  function restoreCurrentGuessRow() {
-    if (gameEnded) return;
-    if (!currentGuess) return;
-    if (guessesUsed >= MAX_GUESSES) return;
+    function restoreCurrentGuessRow() {
+      if (gameEnded) return;
+      if (!currentGuess) return;
+      if (guessesUsed >= MAX_GUESSES) return;
 
-    const row = guessesUsed;
+      const row = guessesUsed;
 
-    for (let b = 0; b < BOARD_COUNT; b++) {
-      if (solved[b]) continue; // ✅ fix: don't create empty current row for solved boards on refresh
-      if (!rows[b][row]) {
-        const rowDiv = createRow(b, row);
-        if (rowDiv) rowDiv.style.display = "grid";
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        if (solved[b]) continue; // ✅ fix: don't create empty current row for solved boards on refresh
+        if (!rows[b][row]) {
+          const rowDiv = createRow(b, row);
+          if (rowDiv) rowDiv.style.display = "grid";
+        } else {
+          rows[b][row].style.display = "grid";
+        }
+      }
+
+      for (let i = 0; i < currentGuess.length && i < COLS; i++) {
+        setLetter(row, i, currentGuess[i]);
+      }
+
+      updateLiveValidity();
+    }
+
+    function isValidSavedState(saved) {
+      if (!saved) return false;
+      if (typeof saved.dailyDate !== "string") return false;
+      if (!Array.isArray(saved.guessesHistory)) return false;
+      return true;
+    }
+
+    async function initGame() {
+      let daily = null;
+      try {
+        daily = await fetchDailyFromServer();
+      } catch (e) {
+        showModal(
+          "NO WORDS",
+          "Could not load today's words (/.netlify/functions/daily).",
+          false
+        );
+        return;
+      }
+
+      DAILY_DATE = typeof daily.date === "string" ? daily.date : israelDateKey(new Date());
+
+      SOLUTIONS = (Array.isArray(daily.words) ? daily.words : [])
+        .map(w => (typeof w === "string" ? w.toUpperCase() : ""))
+        .filter(w => w.length === COLS);
+
+      if (!SOLUTIONS.length) {
+        showModal("NO WORDS", "Daily words are missing. Try refreshing.", false);
+        return;
+      }
+
+      // allow solution-words even if not in words.json
+      SOLUTIONS_SET = new Set(SOLUTIONS.map(w => w.toLowerCase()));
+
+      // try loading dictionary (words.json)
+      try {
+        await loadAllowedWords();
+      } catch (e) {
+        ALLOWED_WORDS_SET = null;
+      }
+
+      BOARD_COUNT = Math.min(CONFIG.BOARD_COUNT, SOLUTIONS.length);
+
+      // load local progress ONLY if it matches today's Israel date
+      let saved = null;
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) saved = JSON.parse(raw);
+      } catch (e) { saved = null; }
+
+      const canUseSaved = isValidSavedState(saved) && saved.dailyDate === DAILY_DATE;
+
+      if (canUseSaved) {
+        guessesHistory = saved.guessesHistory
+          .map(g => (typeof g === "string" ? g.toUpperCase().slice(0, COLS) : ""))
+          .filter(g => g.length === COLS);
+
+        guessesUsed =
+          typeof saved.guessesUsed === "number"
+            ? Math.min(saved.guessesUsed, guessesHistory.length, MAX_GUESSES)
+            : Math.min(guessesHistory.length, MAX_GUESSES);
+
+        currentGuess =
+          typeof saved.currentGuess === "string"
+            ? saved.currentGuess.toUpperCase().slice(0, COLS)
+            : "";
+
+        activeBoard =
+          typeof saved.activeBoard === "number"
+            ? Math.max(0, Math.min(saved.activeBoard, BOARD_COUNT - 1))
+            : 0;
+
+        gameEnded = !!saved.gameEnded;
+        gameStarted = !!saved.gameStarted;
+        startTime = typeof saved.startTime === "number" ? saved.startTime : 0;
+
+        boardsScrollTop = typeof saved.boardsScrollTop === "number" ? saved.boardsScrollTop : 0;
       } else {
-        rows[b][row].style.display = "grid";
+        guessesHistory = [];
+        guessesUsed = 0;
+        currentGuess = "";
+        activeBoard = 0;
+        gameEnded = false;
+        gameStarted = false;
+        startTime = 0;
+        boardsScrollTop = 0;
+
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) { }
       }
-    }
 
-    for (let i = 0; i < currentGuess.length && i < COLS; i++) {
-      setLetter(row, i, currentGuess[i]);
-    }
-
-    updateLiveValidity();
-  }
-
-  function isValidSavedState(saved) {
-    if (!saved) return false;
-    if (typeof saved.dailyDate !== "string") return false;
-    if (!Array.isArray(saved.guessesHistory)) return false;
-    return true;
-  }
-
-  async function initGame() {
-    let daily = null;
-    try {
-      daily = await fetchDailyFromServer();
-    } catch (e) {
-      showModal(
-        "NO WORDS",
-        "Could not load today's words (/.netlify/functions/daily).",
-        false
-      );
-      return;
-    }
-
-    DAILY_DATE = typeof daily.date === "string" ? daily.date : israelDateKey(new Date());
-
-    SOLUTIONS = (Array.isArray(daily.words) ? daily.words : [])
-      .map(w => (typeof w === "string" ? w.toUpperCase() : ""))
-      .filter(w => w.length === COLS);
-
-    if (!SOLUTIONS.length) {
-      showModal("NO WORDS", "Daily words are missing. Try refreshing.", false);
-      return;
-    }
-
-    // allow solution-words even if not in words.json
-    SOLUTIONS_SET = new Set(SOLUTIONS.map(w => w.toLowerCase()));
-
-    // try loading dictionary (words.json)
-    try {
-      await loadAllowedWords();
-    } catch (e) {
-      ALLOWED_WORDS_SET = null;
-    }
-
-    BOARD_COUNT = Math.min(CONFIG.BOARD_COUNT, SOLUTIONS.length);
-
-    // load local progress ONLY if it matches today's Israel date
-    let saved = null;
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) saved = JSON.parse(raw);
-    } catch (e) { saved = null; }
-
-    const canUseSaved = isValidSavedState(saved) && saved.dailyDate === DAILY_DATE;
-
-    if (canUseSaved) {
-      guessesHistory = saved.guessesHistory
-        .map(g => (typeof g === "string" ? g.toUpperCase().slice(0, COLS) : ""))
-        .filter(g => g.length === COLS);
-
-      guessesUsed =
-        typeof saved.guessesUsed === "number"
-          ? Math.min(saved.guessesUsed, guessesHistory.length, MAX_GUESSES)
-          : Math.min(guessesHistory.length, MAX_GUESSES);
-
-      currentGuess =
-        typeof saved.currentGuess === "string"
-          ? saved.currentGuess.toUpperCase().slice(0, COLS)
-          : "";
-
-      activeBoard =
-        typeof saved.activeBoard === "number"
-          ? Math.max(0, Math.min(saved.activeBoard, BOARD_COUNT - 1))
-          : 0;
-
-      gameEnded = !!saved.gameEnded;
-      gameStarted = !!saved.gameStarted;
-      startTime = typeof saved.startTime === "number" ? saved.startTime : 0;
-
-      boardsScrollTop = typeof saved.boardsScrollTop === "number" ? saved.boardsScrollTop : 0;
-    } else {
-      guessesHistory = [];
-      guessesUsed = 0;
-      currentGuess = "";
-      activeBoard = 0;
-      gameEnded = false;
-      gameStarted = false;
-      startTime = 0;
-      boardsScrollTop = 0;
-
-      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
-    }
-
-    // ✅ compute where each board got solved (so we don't spawn empty rows for it on refresh)
-    solvedAtRow = new Array(BOARD_COUNT).fill(-1);
-    for (let b = 0; b < BOARD_COUNT; b++) {
-      const sol = SOLUTIONS[b];
-      for (let r = 0; r < guessesUsed; r++) {
-        if (guessesHistory[r] === sol) { solvedAtRow[b] = r; break; }
+      // ✅ compute where each board got solved (so we don't spawn empty rows for it on refresh)
+      solvedAtRow = new Array(BOARD_COUNT).fill(-1);
+      for (let b = 0; b < BOARD_COUNT; b++) {
+        const sol = SOLUTIONS[b];
+        for (let r = 0; r < guessesUsed; r++) {
+          if (guessesHistory[r] === sol) { solvedAtRow[b] = r; break; }
+        }
       }
+
+      resetRuntimeStateFromScratch();
+      replayGuesses();
+      restoreCurrentGuessRow();
+
+      updateVisibleRows();
+      updateUI();
+      applyHintsToCurrentRow();
+      refreshCurrentRowHighlight();
+      setActiveBoard(activeBoard);
+
+      if (boardsScrollEl) boardsScrollEl.scrollTop = Math.max(0, boardsScrollTop || 0);
+
+      window.removeEventListener("keydown", handleKeydown);
+      window.addEventListener("keydown", handleKeydown);
+
+      if (gameEnded) {
+        const title = solvedCount === BOARD_COUNT ? "YOU WON!" : "GAME OVER";
+        const text =
+          solvedCount === BOARD_COUNT
+            ? "Completed all boards in " + guessesUsed + " guesses."
+            : "Saved state loaded (finished).";
+        showModal(title, text, solvedCount === BOARD_COUNT);
+        showDailyNext();
+      }
+
+      updateLiveValidity();
+      saveState();
     }
 
-    resetRuntimeStateFromScratch();
-    replayGuesses();
-    restoreCurrentGuessRow();
-
-    updateVisibleRows();
-    updateUI();
-    applyHintsToCurrentRow();
-    refreshCurrentRowHighlight();
-    setActiveBoard(activeBoard);
-
-    if (boardsScrollEl) boardsScrollEl.scrollTop = Math.max(0, boardsScrollTop || 0);
-
-    window.removeEventListener("keydown", handleKeydown);
-    window.addEventListener("keydown", handleKeydown);
-
-    if (gameEnded) {
-      const title = solvedCount === BOARD_COUNT ? "YOU WON!" : "GAME OVER";
-      const text =
-        solvedCount === BOARD_COUNT
-          ? "Completed all boards in " + guessesUsed + " guesses."
-          : "Saved state loaded (finished).";
-      showModal(title, text, solvedCount === BOARD_COUNT);
-      showDailyNext();
-    }
-
-    updateLiveValidity();
-    saveState();
-  }
-
-  initGame();
-</script>
+    if (!intersectionObserver) initIntersectionObserver();
+    initGame();
+  </script>
 
 </body>
+
 </html>
