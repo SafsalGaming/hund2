@@ -481,19 +481,6 @@
     }
 
     /* ANIMATIONS */
-    @keyframes tilePop {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.08);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
 
     @keyframes tileFlip {
       0% {
@@ -542,9 +529,6 @@
       }
     }
 
-    .tile-pop {
-      animation: tilePop 0.1s ease-in-out;
-    }
 
     .tile-flip {
       animation: tileFlip 0.5s ease-in-out forwards;
@@ -1433,17 +1417,6 @@
 
       setLetter(row, col, letter);
 
-      // TYPING ANIMATION
-      for (let b = 0; b < BOARD_COUNT; b++) {
-        if (solved[b]) continue;
-        if (typeof visibleBoards !== 'undefined' && !visibleBoards.has(b) && b !== activeBoard) continue;
-        const tile = tiles[b][row][col];
-        if (tile) {
-          tile.classList.remove("tile-pop");
-          void tile.offsetWidth;
-          tile.classList.add("tile-pop");
-        }
-      }
 
       updateLiveValidity();
       saveState();
